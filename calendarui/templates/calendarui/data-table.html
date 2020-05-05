@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title></title>
+    <!-- CND -->
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.print.min.css' rel='stylesheet'
+        media='print' />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <!-- JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.20/js/jquery.dataTables.min.js"
+        type="text/javascript"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" />
+</head>
+
+<body>
+    <br />
+    <div class="ui container">
+
+        <div class="ui grid">
+
+            <div class="ui sixteen column">
+
+                <div id="buttons-container" class="container ui sixteen column form-container">
+                </div>
+                <!-- keep your buttons here -->
+                <div>
+                    <table id="table-data" class="table table-bordered table-responsive w-100"></table>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <script>
+        $(document).ready(() => {
+            let formData = new FormData();
+
+            let filename = "{{filename}}";
+            let yearly = "{{yearly}}";
+            let occurence = "{{occurence}}";
+
+            formData.append('filename', filename)
+            formData.append('occurence', occurence)
+            formData.append('yearly', yearly)
+
+            //file-name=${fileName ? fileName : ''}&yearly=${yearly ? yearly : ''}&occurence=${occurence ? occurence : ''}`
+
+            let assignments_table = $("#table-data")
+            assignments_table.DataTable({
+                "processing": true,
+                "serverSide": false,
+                "ajax": {
+                    "url": '/get-table-data',
+                    "data": {'file-name': filename, 'yearly': yearly, 'occurence': occurence},
+                    dataSrc: "",
+                },
+                "columns": [
+                    {
+                        "title": "Source File",
+                        "data": "data_file_name",
+                    },
+                    {
+                        "title": "Data File Type",
+                        "data": "data_file_type"
+                    },
+                    {
+                        "title": "Received Via",
+                        "render": function(data, type, row){
+                            return  `<p>---</p>`
+                        },
+                    },
+                    {
+                        "title": "Recieved Date",
+                        "render": function(data, type, row){
+                            return  `<p>---</p>`
+                        },
+                    },
+                    {
+                        "title": "Category",
+                        "render": function(data, type, row){
+                            return  `<p>---</p>`
+                        },
+                    },
+                    {
+                        "title": "Total Rows in Source",
+                        "render": function(data, type, row){
+                            return  `<p>---</p>`
+                        },
+                    },
+                    {
+                        "title": "Rows Loaded",
+                        "render": function(data, type, row){
+                            return  `<p>---</p>`
+                        },
+                    },
+                    {
+                        "title": "Rows Failed to Load",
+                        "render": function(data, type, row){
+                            return  `<p>---</p>`
+                        },
+                    },
+                ],
+            });
+        });
+
+    </script>
+</body>
+
+</html>
