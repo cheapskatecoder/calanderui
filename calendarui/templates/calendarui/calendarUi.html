@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title></title>
+    <!-- CND -->
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.print.min.css' rel='stylesheet'
+        media='print' />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <!-- JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.js"></script>
+    <style>
+        .fc-title {
+            color: black !important;
+        }
+
+        .fc-scroller {
+            height: auto !important;
+        }
+
+        .fc-head .fc-widget-header {
+            margin-right: 0 !important;
+        }
+
+        .fc-scroller {
+            overflow: visible !important;
+        }
+
+        .filter-box {
+            width: 25%;
+        }
+
+
+        .form-container {
+            padding: 0px;
+            float: right !important;
+            display: inline-block;
+        }
+
+        .dropbtn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 16px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .dropbtn:hover,
+        .dropbtn:focus {
+            background-color: #3e8e41;
+        }
+
+        .myInput {
+            box-sizing: border-box;
+            background-image: url('searchicon.png');
+            background-position: 14px 12px;
+            background-repeat: no-repeat;
+            font-size: 16px;
+            padding: 14px 20px 12px 45px;
+            border: none;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .myInput:focus {
+            outline: 3px solid #ddd;
+        }
+
+        #overlayContents {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 230px;
+            overflow: auto;
+            border: 1px solid #ddd;
+            z-index: 1;
+            opacity: 10;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown a:hover {
+            background-color: #ddd;
+        }
+
+        .border-style {
+            border-radius: 3px;
+        }
+
+        .show {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <br />
+    <div class="ui container">
+        <div class="ui grid">
+            <div class="ui sixteen column">
+                <div id="buttons-container" class="container ui sixteen column form-container">
+                    <div class="dropdown all">
+                        <button onclick="myFunction1()"
+                            class="fc-month-button fc-button fc-state-default border-style">File
+                            Name
+                        </button>
+                        <div id="allDropdown" class="dropdown-content" style="z-index: 20;">
+                            <input class="myInput" type="text" placeholder="Search.." id="myInput1"
+                                onkeyup="filterFunction1()">
+                        </div>
+                    </div>
+                    <div class="dropdown data">
+                        <button onclick="myFunction2()" class="fc-month-button fc-button fc-state-default border-style">
+                            Occurence
+                        </button>
+                        <div id="dataDropdown" class="dropdown-content" style="z-index: 20;">
+                            <input class="myInput" type="text" placeholder="Search.." id="myInput2"
+                                onkeyup="filterFunction2()">
+                            <a href="#about">WEEKLY</a>
+                            <a href="#about">MONTHLY</a>
+                            <a href="#about">ANNUALY</a>
+                            <a href="#about">QUARTERLY</a>
+                            <a href="#about">NULL</a>
+                        </div>
+                    </div>
+                    <div class="dropdown yearly">
+                        <button onclick="myFunction3()" class="fc-month-button fc-button fc-state-default border-style">
+                            Yearly
+                        </button>
+                        <div id="yearlyDropdown" class="dropdown-content" style="z-index: 20;">
+                            <input class="myInput" type="text" placeholder="Search.." id="myInput3"
+                                onkeyup="filterFunction3()">
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <br>
+                <div id="calendar" style="color:black">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function myFunction1() {
+            document.getElementById("dataDropdown").classList.remove("show");
+            document.getElementById("allDropdown").classList.toggle("show");
+        }
+
+        function myFunction2() {
+            document.getElementById("allDropdown").classList.remove("show");
+            document.getElementById("dataDropdown").classList.toggle("show");
+        }
+
+        function myFunction3() {
+            document.getElementById("yearlyDropdown").classList.toggle("show");
+        }
+
+
+        function filterFunction1() {
+            let input, filter, ul, li, a, i;
+            input = document.getElementById("myInput1");
+            filter = input.value.toUpperCase();
+            div = document.getElementById("allDropdown");
+            a = div.getElementsByTagName("a");
+            for (i = 0; i < a.length; i++) {
+                txtValue = a[i].textContent || a[i].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    a[i].style.display = "";
+                } else {
+                    a[i].style.display = "none";
+                }
+            }
+        }
+
+        function filterFunction2() {
+            let input, filter, ul, li, a, i;
+            input = document.getElementById("myInput2");
+            filter = input.value.toUpperCase();
+            div = document.getElementById("dataDropdown");
+            a = div.getElementsByTagName("a");
+            for (i = 0; i < a.length; i++) {
+                txtValue = a[i].textContent || a[i].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    a[i].style.display = "";
+                } else {
+                    a[i].style.display = "none";
+                }
+            }
+        }
+
+        function filterFunction3() {
+            let input, filter, ul, li, a, i;
+            input = document.getElementById("myInput3");
+            filter = input.value.toUpperCase();
+            div = document.getElementById("yearlyDropdown");
+            a = div.getElementsByTagName("a");
+            for (i = 0; i < a.length; i++) {
+                txtValue = a[i].textContent || a[i].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    a[i].style.display = "";
+                } else {
+                    a[i].style.display = "none";
+                }
+            }
+        }
+
+
+        $(document).ready(function () {
+            let colors = ['#FFB5E8', '#ff9cee', '#ffccf9', '#fcc2ff', '#f6a6ff', '#b28dff', '#c5a3ff', '#d5aaff', '#ecd4ff', '#fbe4ff', '#dcd3ff', '#a79aff', '#b5b9ff', '#97a2ff', '#afcbff', '#aff8db', '#c4faf8', '#85e3ff', '#ace7ff', '#6eb5ff', '#bffcc6', '#dbffd6', '#f3ffe3', '#e7ffac', '#fffd1', '#ffc9de', '#ffabab', '#ffbebc', '#ffcbc1', '#fff5ba']
+
+            let dow_handler = {
+                'monday': 1,
+                'tuesday': 2,
+                'wednesday': 3,
+                'thursday': 4,
+                'friday': 5,
+                'saturday': 6,
+                'sunday': 7
+            }
+
+            const getRepeatDate = (data_file_name) => {
+                Object.entries(dow_handler).forEach((value, _) => {
+                    if (value[0] == data_file_name) {
+                        return value[1];
+                    } else {
+                        return 1
+                    }
+                });
+            }
+
+            var t = new Date().getDate() + (6 - new Date().getDay() - 1) - 7;
+            var lastFriday = new Date();
+            lastFriday.setDate(t);
+            console.log(lastFriday);
+
+            var t = new Date().getDate() + (4 - new Date().getDay() - 1) - 7;
+            var lastWednesday = new Date();
+            lastWednesday.setDate(t);
+            console.log(lastWednesday);
+
+            var t = new Date().getDate() + (6 - new Date().getDay() - 4) - 7;
+            var firstFriday = new Date();
+            firstFriday.setDate(t);
+            console.log(firstFriday);
+
+
+            $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,basicWeek,basicDay'
+                },
+                displayEventTime: false,
+                navLinks: true, // can click day/week names to navigate views
+                editable: true,
+                eventLimit: true, // allow "more" link when too many events
+                events: (start, end, timezone, callback) => {
+                    $.ajax({
+                        url: 'get-events',
+                        dataType: 'json',
+                        data: {
+                            // our hypothetical feed requires UNIX timestamps
+                            start: start.unix(),
+                            end: end.unix()
+                        },
+                        success: function (res) {
+                            console.log(res)
+                            var events = [];
+                            res.map((value, index) => {
+                                if (value.cadence != null) {
+                                    $("#allDropdown").append(`<a id="value.dq_datafile_id" href="#about">${value.data_file_name}</a>`)
+                                }
+
+                                if (value.cadence == "WEEKLY") {
+                                    const data_file_name = value.data_file_name;
+                                    let repeatDay = dow_handler.hasOwnProperty(data_file_name) ? dow_handler[data_file_name] : undefined
+
+                                    events.push({
+                                        title: `${value.data_file_name}`,
+                                        start: '2020-04-13',
+                                        dow: [repeatDay, 1],
+                                        color: '#e7e7e7'
+                                    });
+                                } else if (value.cadence == "MONTHLY") {
+                                    const data_file_name = value.data_file_name;
+                                    let repeatDay = dow_handler.hasOwnProperty(data_file_name) ? dow_handler[data_file_name] : undefined
+
+                                    events.push({
+                                        title: `${value.data_file_name}`,
+                                        start: lastFriday,
+                                        repeat: 1,
+                                        color: '#ffccf9'
+                                    });
+                                } else {
+                                    events.push({
+                                        title: `${value.data_file_name}`,
+                                        start: lastWednesday,
+                                        repeat: 1,
+                                        color: '#85e3ff'
+                                    });
+                                }
+                            })
+                            callback(events);
+                        }
+                    });
+                }
+            });
+
+        });
+    </script>
+</body>
+
+</html>
