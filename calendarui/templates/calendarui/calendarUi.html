@@ -125,7 +125,7 @@
             <div class="ui sixteen column">
                 <div id="buttons-container" class="container ui sixteen column form-container">
                     <div class="dropdown all">
-                        <button onclick="myFunction1()"
+                        <button onclick="myFunction1()" id="selectFile"
                             class="fc-month-button fc-button fc-state-default border-style">File
                             Name
                         </button>
@@ -135,27 +135,30 @@
                         </div>
                     </div>
                     <div class="dropdown data">
-                        <button onclick="myFunction2()" class="fc-month-button fc-button fc-state-default border-style">
+                        <button onclick="myFunction2()" class="fc-month-button fc-button fc-state-default border-style" id="occurence">
                             Occurence
                         </button>
                         <div id="dataDropdown" class="dropdown-content" style="z-index: 20;">
                             <input class="myInput" type="text" placeholder="Search.." id="myInput2"
                                 onkeyup="filterFunction2()">
-                            <a href="#about">WEEKLY</a>
-                            <a href="#about">MONTHLY</a>
-                            <a href="#about">ANNUALY</a>
-                            <a href="#about">QUARTERLY</a>
-                            <a href="#about">NULL</a>
+                            <a href="#" onclick="changeWeekly(this)">WEEKLY</a>
+                            <a href="#" onclick="changeWeekly(this)">MONTHLY</a>
+                            <a href="#" onclick="changeWeekly(this)">ANNUALY</a>
+                            <a href="#" onclick="changeWeekly(this)">QUARTERLY</a>
+                            <a href="#" onclick="changeWeekly(this)">NULL</a>
                         </div>
                     </div>
                     <div class="dropdown yearly">
-                        <button onclick="myFunction3()" class="fc-month-button fc-button fc-state-default border-style">
+                        <button onclick="myFunction3(this)" class="fc-month-button fc-button fc-state-default border-style">
                             Yearly
                         </button>
                         <div id="yearlyDropdown" class="dropdown-content" style="z-index: 20;">
                             <input class="myInput" type="text" placeholder="Search.." id="myInput3"
                                 onkeyup="filterFunction3()">
                         </div>
+                    </div>
+                    <div class="dropdown btn">
+                        <button id="submit-filter">Submit</button>
                     </div>
                 </div>
                 <br>
@@ -167,6 +170,29 @@
     </div>
 
     <script>
+        $("#submit-filter").click(()=>{
+            let occurence = localStorage.getItem('occurence');
+            let yearly = localStorage.getItem('yearly');
+            let fileName = localStorage.getItem('fileName');
+
+            window.location = `data-table?file-name=${fileName ? fileName : ''}&yearly=${yearly ? yearly : ''}&occurence=${occurence ? occurence : ''}`
+
+        });
+
+        function changeWeekly(obj){
+            let data = $(obj).html()
+            console.log("asdfasdfasdf", data);
+            $("#occurence").html(data);
+            localStorage.setItem('occurence', data);
+        }
+
+        function selectThis(obj){
+            let data = $(obj).html()
+            console.log("khkjhjkhhjh", data);
+            $("#selectFile").html(data);
+            localStorage.setItem('fileName', data);
+        }
+
         function myFunction1() {
             document.getElementById("dataDropdown").classList.remove("show");
             document.getElementById("allDropdown").classList.toggle("show");
@@ -177,8 +203,10 @@
             document.getElementById("dataDropdown").classList.toggle("show");
         }
 
-        function myFunction3() {
+        function myFunction3(obj) {
             document.getElementById("yearlyDropdown").classList.toggle("show");
+            localStorage.setItem('yearly', 'y');
+            $(obj).toggleClass('btn-danger btn');
         }
 
 
@@ -232,6 +260,7 @@
 
 
         $(document).ready(function () {
+            localStorage.clear();
             let colors = ['#FFB5E8', '#ff9cee', '#ffccf9', '#fcc2ff', '#f6a6ff', '#b28dff', '#c5a3ff', '#d5aaff', '#ecd4ff', '#fbe4ff', '#dcd3ff', '#a79aff', '#b5b9ff', '#97a2ff', '#afcbff', '#aff8db', '#c4faf8', '#85e3ff', '#ace7ff', '#6eb5ff', '#bffcc6', '#dbffd6', '#f3ffe3', '#e7ffac', '#fffd1', '#ffc9de', '#ffabab', '#ffbebc', '#ffcbc1', '#fff5ba']
 
             let dow_handler = {
@@ -294,7 +323,7 @@
                             var events = [];
                             res.map((value, index) => {
                                 if (value.cadence != null) {
-                                    $("#allDropdown").append(`<a id="value.dq_datafile_id" href="#about">${value.data_file_name}</a>`)
+                                    $("#allDropdown").append(`<a id="file-${value.dq_datafile_id}" onclick="selectThis(this)" href="#about">${value.data_file_name}</a>`)
                                 }
 
                                 if (value.cadence == "WEEKLY") {
