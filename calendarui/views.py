@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from django.views import View
-from .models import DqDatafile
+from .models import DqDatafile, DqFeed
 from django.http import JsonResponse
 import datetime, calendar
+
 
 
 class Calendar(View):
@@ -44,25 +45,18 @@ class GetTableData(View):
         occurence = request.GET.get('occurence')
         yearly =  request.GET.get('yearly')
 
-        print({"filename": filename, "yearly": yearly, "occurence": occurence})
-
         if filename != "undefined" and occurence != "undefined":
-            print("all not none")
             data = list(DqDatafile.objects.filter(data_file_name=filename, cadence=occurence).values())
             return JsonResponse(data, safe=False)
         elif filename != "undefined"  and occurence != "undefined":
-            print("both not none")
             data = list(DqDatafile.objects.filter(cadence=occurence).values())
             return JsonResponse(data, safe=False)
         elif filename != "undefined":
-            print("file name not none")
             data = list(DqDatafile.objects.filter(data_file_name=filename).values())
             return JsonResponse(data, safe=False)
         elif occurence != "undefined":
-            print("occurnec name not none")
             data = list(DqDatafile.objects.filter(cadence=occurence).values())
             return JsonResponse(data, safe=False)
         else:
-            print("else")
             data = list(DqDatafile.objects.values())
             return JsonResponse(data, safe=False)
