@@ -146,27 +146,21 @@
                             <a href="#" onclick="changeWeekly(this)">MONTHLY</a>
                             <a href="#" onclick="changeWeekly(this)">ANNUALY</a>
                             <a href="#" onclick="changeWeekly(this)">QUARTERLY</a>
-                            <a href="#" onclick="changeWeekly(this)">NULL</a>
+			    <a href="#" onclick="changeWeekly(this)">DAILY</a>
+			    <a href="#" onclick="changeWeekly(this)">NULL</a>
                         </div>
                     </div>
                     <div class="dropdown yearly">
                         <button onclick="myFunction3(this)"
-                            class="fc-month-button fc-button fc-state-default border-style">
-                            Yearly
+                            class="fc-month-button fc-button fc-state-default border-style" id="category">
+                            Category
                         </button>
                         <div id="yearlyDropdown" class="dropdown-content" style="z-index: 20;">
                             <input class="myInput" type="text" placeholder="Search.." id="myInput3"
-                                onkeyup="filterFunction3()">
-                        </div>
-                    </div>
-                    <div class="dropdown filetype">
-                        <button onclick="myFunction4(this)"
-                            class="fc-month-button fc-button fc-state-default border-style">
-                            File Type
-                        </button>
-                        <div id="fileTypeDropDown" class="dropdown-content" style="z-index: 20;">
-                            <input class="myInput" type="text" placeholder="Search.." id="myInput4"
-                                onkeyup="filterFunction4()">
+                                   onkeyup="filterFunction3()">
+			    {% for categories in category %}
+			    <a href="#" onclick="changeCategory(this)">{{ categories }}</a>
+			    {% endfor %}
                         </div>
                     </div>
                     <div class="dropdown btn">
@@ -184,10 +178,10 @@
     <script>
         $("#submit-filter").click(() => {
             let occurence = localStorage.getItem('occurence');
-            let yearly = localStorage.getItem('yearly');
+            let category = localStorage.getItem('category');
             let fileName = localStorage.getItem('fileName');
 
-            window.location = `data-table?file-name=${fileName ? fileName : ''}&yearly=${yearly ? yearly : ''}&occurence=${occurence ? occurence : ''}`
+            window.location = `data-table?file-name=${fileName ? fileName : ''}&category=${category ? category : ''}&occurence=${occurence ? occurence : ''}`
         });
 
         function changeWeekly(obj) {
@@ -196,6 +190,12 @@
             localStorage.setItem('occurence', data);
         }
 
+	function changeCategory(obj) {
+	let data = $(obj).html()
+	$("#category").html(data);
+	localStorage.setItem('category', data);
+	}
+	
         function selectThis(obj) {
             let data = $(obj).html()
             $("#selectFile").html(data);
@@ -215,7 +215,6 @@
         function myFunction3(obj) {
             document.getElementById("yearlyDropdown").classList.toggle("show");
             localStorage.setItem('yearly', 'y');
-            $(obj).toggleClass('btn-danger btn');
         }
 
         function myFunction4(obj) {
