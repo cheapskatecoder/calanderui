@@ -15,10 +15,9 @@ class Calendar(View):
         last_friday -= one_day
     print(last_friday.strftime('%D'))
 
-
-
     def get(self, request):
-        return render(request, self.template_name, context={})
+        category = DqFeed.objects.values_list('category', flat=True).distinct()
+        return render(request, self.template_name, context={'category': category})
 
 
 class GetEvents(View):
@@ -33,8 +32,9 @@ class TableView(View):
         filename = request.GET.get('file-name')
         occurence = request.GET.get('occurence')
         yearly =  request.GET.get('yearly')
-
-        context_data = {'yearly': yearly if yearly != '' else 'undefined', 'occurence': occurence if occurence != '' else 'undefined', 'filename': filename if filename != '' else 'undefined'}
+        category = DqFeed.objects.order_by('category').distinct('category')
+        print(category)
+        context_data = {'category': category ,'yearly': yearly if yearly != '' else 'undefined', 'occurence': occurence if occurence != '' else 'undefined', 'filename': filename if filename != '' else 'undefined'}
         return render(request, self.template_name, context=context_data)
 
 
