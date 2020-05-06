@@ -32,9 +32,7 @@ class TableView(View):
         filename = request.GET.get('file-name')
         occurence = request.GET.get('occurence')
         yearly =  request.GET.get('yearly')
-        category = DqFeed.objects.order_by('category').distinct('category')
-        print(category)
-        context_data = {'category': category ,'yearly': yearly if yearly != '' else 'undefined', 'occurence': occurence if occurence != '' else 'undefined', 'filename': filename if filename != '' else 'undefined'}
+        context_data = {'yearly': yearly if yearly != '' else 'undefined', 'occurence': occurence if occurence != '' else 'undefined', 'filename': filename if filename != '' else 'undefined'}
         return render(request, self.template_name, context=context_data)
 
 
