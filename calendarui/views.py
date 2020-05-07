@@ -16,8 +16,9 @@ class Calendar(View):
     print(last_friday.strftime('%D'))
 
     def get(self, request):
+        occurence = DqDatafile.objects.values_list('cadence', flat=True).distinct()
         category = DqFeed.objects.values_list('category', flat=True).distinct()
-        return render(request, self.template_name, context={'category': category})
+        return render(request, self.template_name, context={'category': category , 'occurence': occurence})
 
 
 class GetEvents(View):
@@ -32,7 +33,11 @@ class TableView(View):
         filename = request.GET.get('file-name')
         occurence = request.GET.get('occurence')
         yearly =  request.GET.get('yearly')
-        context_data = {'yearly': yearly if yearly != '' else 'undefined', 'occurence': occurence if occurence != '' else 'undefined', 'filename': filename if filename != '' else 'undefined'}
+        received_via = DqFeed.objects.values_list('feed_received_via', flat=True).distinct()
+        category = DqFeed.objects.values_list('category', flat=True).distinct()
+        file_type = DqFeed.objects.values_list('source_datafile_type', flat=True).distinct()
+        context_data = {'yearly': yearly if yearly != '' else 'undefined', 'occurence': occurence if occurence != '' else 'undefined',
+                        'filename': filename if filename != '' else 'undefined' , 'received_via': received_via, 'category': category, 'file_type': file_type}
         return render(request, self.template_name, context=context_data)
 
 
