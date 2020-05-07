@@ -111,7 +111,11 @@
         .border-style {
             border-radius: 3px;
         }
-
+	.submit-button {
+	margin-left: 16px;
+	font-size: 18px;
+	}
+	}
         .show {
             display: block;
         }
@@ -147,9 +151,8 @@
             <div class="ui sixteen column">
               <div id="buttons-container" class="container ui sixteen column form-container">
                 <div class="dropdown all">
-                  <button onclick="myFunction1()" id="selectFile"
-                          class="fc-month-button fc-button fc-state-default border-style">File
-                    Name
+                  <button onclick="myFunction1()" id="selectFile" class="fc-month-button fc-button fc-state-default border-style">
+		    FileName
                   </button>
                   <div id="allDropdown" class="dropdown-content" style="z-index: 20;">
                     <input class="myInput" type="text" placeholder="Search.." id="myInput1"
@@ -164,12 +167,9 @@
                         <div id="dataDropdown" class="dropdown-content" style="z-index: 20;">
                           <input class="myInput" type="text" placeholder="Search.." id="myInput2"
                                  onkeyup="filterFunction2()">
-                          <a href="#" onclick="changeWeekly(this)">WEEKLY</a>
-                          <a href="#" onclick="changeWeekly(this)">MONTHLY</a>
-                          <a href="#" onclick="changeWeekly(this)">ANNUALY</a>
-                          <a href="#" onclick="changeWeekly(this)">QUARTERLY</a>
-			  <a href="#" onclick="changeWeekly(this)">DAILY</a>
-			  <a href="#" onclick="changeWeekly(this)">NULL</a>
+			  {% for cadence in occurence %}
+                          <a href="#" onclick="changeWeekly(this)">{{ cadence }}</a>
+			  {%  endfor %}
                         </div>
                 </div>
                 <div class="dropdown yearly">
@@ -185,8 +185,8 @@
 		    {% endfor %}
                   </div>
                 </div>
-                <div class="dropdown btn">
-                  <button id="submit-filter">Submit</button>
+                <div class="dropdown">
+                  <button class="fc-month-button fc-button fc-state-default border-style submit-button" id="submit-filter">Submit</button>
                 </div>
               </div>
                 <br>
@@ -201,7 +201,7 @@
       $("#submit-filter").click(() => {
       let occurence = localStorage.getItem('occurence');
       let category = localStorage.getItem('category');
-            let fileName = localStorage.getItem('fileName');
+      let fileName = localStorage.getItem('fileName');
       
       window.location = `data-table?file-name=${fileName ? fileName : ''}&category=${category ? category : ''}&occurence=${occurence ? occurence : ''}`
       });
@@ -209,32 +209,39 @@
         function changeWeekly(obj) {
       let data = $(obj).html()
       $("#occurence").html(data);
+      document.getElementById("dataDropdown").classList.remove("show");
       localStorage.setItem('occurence', data);
         }
       
       function changeCategory(obj) {
       let data = $(obj).html()
       $("#category").html(data);
-	localStorage.setItem('category', data);
+      document.getElementById("yearlyDropdown").classList.remove("show");
+      localStorage.setItem('category', data);
       }
       
       function selectThis(obj) {
       let data = $(obj).html()
       $("#selectFile").html(data);
+      document.getElementById("allDropdown").classList.remove("show");
       localStorage.setItem('fileName', data);
       }
 
       function myFunction1() {
       document.getElementById("dataDropdown").classList.remove("show");
+      document.getElementById("yearlyDropdown").classList.remove("show");
       document.getElementById("allDropdown").classList.toggle("show");
       }
 
       function myFunction2() {
       document.getElementById("allDropdown").classList.remove("show");
+      document.getElementById("yearlyDropdown").classList.remove("show");
       document.getElementById("dataDropdown").classList.toggle("show");
       }
       
-        function myFunction3(obj) {
+      function myFunction3(obj) {
+      document.getElementById("allDropdown").classList.remove("show");
+      document.getElementById("dataDropdown").classList.remove("show");
       document.getElementById("yearlyDropdown").classList.toggle("show");
       localStorage.setItem('yearly', 'y');
       }
