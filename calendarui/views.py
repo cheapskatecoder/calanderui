@@ -32,12 +32,10 @@ class TableView(View):
     def get(self, request):
         filename = request.GET.get('file-name')
         occurence = request.GET.get('occurence')
-        yearly =  request.GET.get('yearly')
-        received_via = DqFeed.objects.values_list('feed_received_via', flat=True).distinct()
-        category = DqFeed.objects.values_list('category', flat=True).distinct()
-        file_type = DqFeed.objects.values_list('source_datafile_type', flat=True).distinct()
-        context_data = {'yearly': yearly if yearly != '' else 'undefined', 'occurence': occurence if occurence != '' else 'undefined',
-                        'filename': filename if filename != '' else 'undefined' , 'received_via': received_via, 'category': category, 'file_type': file_type}
+        category =  request.GET.get('category')
+        rows = DqFeed.objects.all()
+        context_data = {'category': category if category != '' else 'undefined', 'occurence': occurence if occurence != '' else 'undefined',
+                        'filename': filename if filename != '' else 'undefined' , 'rows': rows}
         return render(request, self.template_name, context=context_data)
 
 
@@ -46,20 +44,33 @@ class GetTableData(View):
     def get(self, request):
         filename = request.GET.get('file-name')
         occurence = request.GET.get('occurence')
-        yearly =  request.GET.get('yearly')
+        category =  request.GET.get('category')
+        print('filename: ', filename, 'occurence: ', occurence, 'category: ', category)
 
-        if filename != "undefined" and occurence != "undefined":
-            data = list(DqDatafile.objects.filter(data_file_name=filename, cadence=occurence).values())
+        if filename != "undefined" and occurence != "undefined" and category != "undefined":
+            data = list(DqFeed.objects.filter(dq_datafile__data_file_name=filename, dq_datafile__cadence=occurence, category=category).values())
             return JsonResponse(data, safe=False)
-        elif filename != "undefined"  and occurence != "undefined":
-            data = list(DqDatafile.objects.filter(cadence=occurence).values())
+        elif filename != "undefined" and occurence != "undefined" and category == "undefined":
+            data = list(DqFeed.objects.filter(dq_datafile__data_file_name=filename, dq_datafile__cadence=occurence).values())
             return JsonResponse(data, safe=False)
-        elif filename != "undefined":
-            data = list(DqDatafile.objects.filter(data_file_name=filename).values())
+        elif filename != "undefined" and occurence == "undefined" and category == "undefined":
+            data = list(DqFeed.objects.filter(dq_datafile__data_file_name=filename).values())
             return JsonResponse(data, safe=False)
-        elif occurence != "undefined":
-            data = list(DqDatafile.objects.filter(cadence=occurence).values())
+        elif filename == "undefined" and occurence != "undefined" and category != "undefined":
+            data = list(DqFeed.objects.filter(dq_datafile__data_file_name=filename, dq_datafile__cadence=occurence, category=category).values())
+            return JsonResponse(data, safe=False)
+        elif filename == "undefined" and occurence != "undefined" and category == "undefined":
+            data = list(DqFeed.objects.filter(dq_datafile__cadence=occurence).values())
+            return JsonResponse(data, safe=False)
+        if filename != "undefined" and occurence == "undefined" and category != "undefined":
+            data = list(DqFeed.objects.filter(dq_datafile__data_file_name=filename, category=category).values())
+            return JsonResponse(data, safe=False)
+        if filename == "undefined" and occurence != "undefined" and category != "undefined":
+            data = list(DqFeed.objects.filter(dq_datafile__data_file_name=filename, dq_datafile__cadence=occurence, category=category).values())
+            return JsonResponse(data, safe=False)
+        if filename == "undefined" and occurence == "undefined" and category != "undefined":
+            data = list(DqFeed.objects.filter(category=category).values())
             return JsonResponse(data, safe=False)
         else:
-            data = list(DqDatafile.objects.values())
+            data = list(DqFeed.objects.values())
             return JsonResponse(data, safe=False)
