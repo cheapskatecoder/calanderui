@@ -17,13 +17,13 @@ class Calendar(View):
 
     def get(self, request):
         occurence = DqDatafile.objects.values_list('cadence', flat=True).distinct()
-        category = DqFeed.objects.values_list('category', flat=True).distinct()
-        return render(request, self.template_name, context={'category': category , 'occurence': occurence})
+        categories = DqFeed.objects.values_list('category', flat=True).distinct()
+        return render(request, self.template_name, context={'categories': categories , 'occurence': occurence})
 
 
 class GetEvents(View):
     def get(self, request):
-        events = list(DqDatafile.objects.values())
+        events = list(DqDatafile.objects.all().values('dqfeed__file_status', 'cadence', 'data_file_name'))
         return JsonResponse(events, safe=False)
 
 class TableView(View):
