@@ -1,5 +1,5 @@
 from django.urls import path
-from calendarui.views import Calendar, GetEvents, TableView, GetTableData
+from .views import Calendar, GetEvents, TableView, GetTableData
 
 
 urlpatterns = [

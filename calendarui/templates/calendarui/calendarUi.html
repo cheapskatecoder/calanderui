@@ -7,7 +7,7 @@
     <title></title>
     <!-- CND -->
     <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.print.min.css' rel='stylesheet'
-        media='print' />
+          media='print'/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -116,6 +116,7 @@
             margin-left: 16px;
             font-size: 18px;
         }
+
         }
 
         .show {
@@ -125,254 +126,255 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-inverse">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="#">WebSiteName</a>
-            </div>
-            <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Home</a></li>
-                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Page 1 <span
-                            class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Page 1-1</a></li>
-                        <li><a href="#">Page 1-2</a></li>
-                        <li><a href="#">Page 1-3</a></li>
-                    </ul>
-                </li>
-                <li><a href="#">Page 2</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-            </ul>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <!--<a class="navbar-brand" href="#">WebSiteName</a>-->
         </div>
-    </nav>
-    <br />
-    <div class="ui container">
-        <div class="ui grid">
-            <div class="ui sixteen column">
-                <div id="buttons-container" class="container ui sixteen column form-container">
-                    <div class="dropdown all">
-                        <button onclick="myFunction1()" id="selectFile"
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="">Calendar</a></li>
+            <!--<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Page 1 <span
+                        class="caret"></span></a>
+              <ul class="dropdown-menu">
+                    <li><a href="#">Page 1-1</a></li>
+                    <li><a href="#">Page 1-2</a></li>
+                    <li><a href="#">Page 1-3</a></li>
+                </ul>-->
+            </li>
+            <!--<li><a href="#">Page 2</a></li>-->
+        </ul>
+        <ul class="nav navbar-nav navbar-left">
+            <!--<li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>-->
+            <li><a href="/calendarui/data-table"><span class="glyphicon glyphicon-th-list"></span> Data Table</a></li>
+        </ul>
+    </div>
+</nav>
+<br/>
+<div class="ui container">
+    <div class="ui grid">
+        <div class="ui sixteen column">
+            <div id="buttons-container" class="container ui sixteen column form-container">
+                <div class="dropdown all">
+                    <button onclick="myFunction1()" id="selectFile"
                             class="fc-month-button fc-button fc-state-default border-style">
-                            FileName
-                        </button>
-                        <div id="allDropdown" class="dropdown-content" style="z-index: 20;">
-                            <input class="myInput" type="text" placeholder="Search.." id="myInput1"
-                                onkeyup="filterFunction1()">
-                        </div>
+                        FileName
+                    </button>
+                    <div id="allDropdown" class="dropdown-content" style="z-index: 20;">
+                        <input class="myInput" type="text" placeholder="Search.." id="myInput1"
+                               onkeyup="filterFunction1()">
                     </div>
-                    <div class="dropdown data">
-                        <button onclick="myFunction2()" class="fc-month-button fc-button fc-state-default border-style"
+                </div>
+                <div class="dropdown data">
+                    <button onclick="myFunction2()" class="fc-month-button fc-button fc-state-default border-style"
                             id="occurence">
-                            Occurence
-                        </button>
-                        <div id="dataDropdown" class="dropdown-content" style="z-index: 20;">
-                            <input class="myInput" type="text" placeholder="Search.." id="myInput2"
-                                onkeyup="filterFunction2()">
-                            {% for cadence in occurence %}
+                        Occurence
+                    </button>
+                    <div id="dataDropdown" class="dropdown-content" style="z-index: 20;">
+                        <input class="myInput" type="text" placeholder="Search.." id="myInput2"
+                               onkeyup="filterFunction2()">
+                        {% for cadence in occurence %}
                             <a href="#" onclick="changeWeekly(this)">{{ cadence }}</a>
-                            {%  endfor %}
-                        </div>
+                        {% endfor %}
                     </div>
-                    <div class="dropdown yearly">
-                        <button onclick="myFunction3(this)"
+                </div>
+                <div class="dropdown yearly">
+                    <button onclick="myFunction3(this)"
                             class="fc-month-button fc-button fc-state-default border-style" id="category">
-                            Category
-                        </button>
-                        <div id="yearlyDropdown" class="dropdown-content" style="z-index: 20;">
-                            <input class="myInput" type="text" placeholder="Search.." id="myInput3"
-                                onkeyup="filterFunction3()">
-                            {% for category in categories %}
-                                <a href="#" onclick="changeCategory(this)">{{ category }}</a>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    <div class="dropdown">
-                        <button class="fc-month-button fc-button fc-state-default border-style submit-button"
-                            id="submit-filter">Submit</button>
+                        Category
+                    </button>
+                    <div id="yearlyDropdown" class="dropdown-content" style="z-index: 20;">
+                        <input class="myInput" type="text" placeholder="Search.." id="myInput3"
+                               onkeyup="filterFunction3()">
+                        {% for category in categories %}
+                            <a href="#" onclick="changeCategory(this)">{{ category }}</a>
+                        {% endfor %}
                     </div>
                 </div>
-                <br>
-                <br>
-                <div id="calendar" style="color:black">
+                <div class="dropdown">
+                    <button class="fc-month-button fc-button fc-state-default border-style submit-button"
+                            id="submit-filter">Submit
+                    </button>
                 </div>
+            </div>
+            <br>
+            <br>
+            <div id="calendar" style="color:black">
             </div>
         </div>
     </div>
+</div>
 
-    <script>
-        $("#submit-filter").click(() => {
-            let occurence = localStorage.getItem('occurence');
-            let category = localStorage.getItem('category');
-            let fileName = localStorage.getItem('fileName');
+<script>
+    $("#submit-filter").click(() => {
+        let occurence = localStorage.getItem('occurence');
+        let category = localStorage.getItem('category');
+        let fileName = localStorage.getItem('fileName');
 
-            window.location = `data-table?file-name=${fileName ? fileName : ''}&category=${category ? category : ''}&occurence=${occurence ? occurence : ''}`
-        });
+        window.location = `data-table?file-name=${fileName ? fileName : ''}&category=${category ? category : ''}&occurence=${occurence ? occurence : ''}`
+    });
 
-        function changeWeekly(obj) {
-            let data = $(obj).html()
-            $("#occurence").html(data);
-            document.getElementById("dataDropdown").classList.remove("show");
-            localStorage.setItem('occurence', data);
+    function changeWeekly(obj) {
+        let data = $(obj).html()
+        $("#occurence").html(data);
+        document.getElementById("dataDropdown").classList.remove("show");
+        localStorage.setItem('occurence', data);
+    }
+
+    function changeCategory(obj) {
+        let data = $(obj).html()
+        $("#category").html(data);
+        document.getElementById("yearlyDropdown").classList.remove("show");
+        localStorage.setItem('category', data);
+    }
+
+    function selectThis(obj) {
+        let data = $(obj).html()
+        $("#selectFile").html(data);
+        document.getElementById("allDropdown").classList.remove("show");
+        localStorage.setItem('fileName', data);
+    }
+
+    function myFunction1() {
+        document.getElementById("dataDropdown").classList.remove("show");
+        document.getElementById("yearlyDropdown").classList.remove("show");
+        document.getElementById("allDropdown").classList.toggle("show");
+    }
+
+    function myFunction2() {
+        document.getElementById("allDropdown").classList.remove("show");
+        document.getElementById("yearlyDropdown").classList.remove("show");
+        document.getElementById("dataDropdown").classList.toggle("show");
+    }
+
+    function myFunction3(obj) {
+        document.getElementById("allDropdown").classList.remove("show");
+        document.getElementById("dataDropdown").classList.remove("show");
+        document.getElementById("yearlyDropdown").classList.toggle("show");
+        localStorage.setItem('yearly', 'y');
+    }
+
+    function myFunction4(obj) {
+        document.getElementById('fileTypeDropDown').classList.toggle('show');
+    }
+
+    function filterFunction1() {
+        let input, filter, ul, li, a, i;
+        input = document.getElementById("myInput1");
+        filter = input.value.toUpperCase();
+        div = document.getElementById("allDropdown");
+        a = div.getElementsByTagName("a");
+        for (i = 0; i < a.length; i++) {
+            txtValue = a[i].textContent || a[i].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                a[i].style.display = "";
+            } else {
+                a[i].style.display = "none";
+            }
+        }
+    }
+
+    function filterFunction2() {
+        let input, filter, ul, li, a, i;
+        input = document.getElementById("myInput2");
+        filter = input.value.toUpperCase();
+        div = document.getElementById("dataDropdown");
+        a = div.getElementsByTagName("a");
+        for (i = 0; i < a.length; i++) {
+            txtValue = a[i].textContent || a[i].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                a[i].style.display = "";
+            } else {
+                a[i].style.display = "none";
+            }
+        }
+    }
+
+    function filterFunction3() {
+        let input, filter, ul, li, a, i;
+        input = document.getElementById("myInput3");
+        filter = input.value.toUpperCase();
+        div = document.getElementById("yearlyDropdown");
+        a = div.getElementsByTagName("a");
+        for (i = 0; i < a.length; i++) {
+            txtValue = a[i].textContent || a[i].innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                a[i].style.display = "";
+            } else {
+                a[i].style.display = "none";
+            }
+        }
+    }
+
+
+    $(document).ready(function () {
+        localStorage.clear();
+        let colors = ['#FFB5E8', '#ff9cee', '#ffccf9', '#fcc2ff', '#f6a6ff', '#b28dff', '#c5a3ff', '#d5aaff', '#ecd4ff', '#fbe4ff', '#dcd3ff', '#a79aff', '#b5b9ff', '#97a2ff', '#afcbff', '#aff8db', '#c4faf8', '#85e3ff', '#ace7ff', '#6eb5ff', '#bffcc6', '#dbffd6', '#f3ffe3', '#e7ffac', '#fffd1', '#ffc9de', '#ffabab', '#ffbebc', '#ffcbc1', '#fff5ba']
+
+        let dow_handler = {
+            'monday': 1,
+            'tuesday': 2,
+            'wednesday': 3,
+            'thursday': 4,
+            'friday': 5,
+            'saturday': 6,
+            'sunday': 7
         }
 
-        function changeCategory(obj) {
-            let data = $(obj).html()
-            $("#category").html(data);
-            document.getElementById("yearlyDropdown").classList.remove("show");
-            localStorage.setItem('category', data);
-        }
-
-        function selectThis(obj) {
-            let data = $(obj).html()
-            $("#selectFile").html(data);
-            document.getElementById("allDropdown").classList.remove("show");
-            localStorage.setItem('fileName', data);
-        }
-
-        function myFunction1() {
-            document.getElementById("dataDropdown").classList.remove("show");
-            document.getElementById("yearlyDropdown").classList.remove("show");
-            document.getElementById("allDropdown").classList.toggle("show");
-        }
-
-        function myFunction2() {
-            document.getElementById("allDropdown").classList.remove("show");
-            document.getElementById("yearlyDropdown").classList.remove("show");
-            document.getElementById("dataDropdown").classList.toggle("show");
-        }
-
-        function myFunction3(obj) {
-            document.getElementById("allDropdown").classList.remove("show");
-            document.getElementById("dataDropdown").classList.remove("show");
-            document.getElementById("yearlyDropdown").classList.toggle("show");
-            localStorage.setItem('yearly', 'y');
-        }
-
-        function myFunction4(obj) {
-            document.getElementById('fileTypeDropDown').classList.toggle('show');
-        }
-
-        function filterFunction1() {
-            let input, filter, ul, li, a, i;
-            input = document.getElementById("myInput1");
-            filter = input.value.toUpperCase();
-            div = document.getElementById("allDropdown");
-            a = div.getElementsByTagName("a");
-            for (i = 0; i < a.length; i++) {
-                txtValue = a[i].textContent || a[i].innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    a[i].style.display = "";
+        const getRepeatDate = (data_file_name) => {
+            Object.entries(dow_handler).forEach((value, _) => {
+                if (value[0] == data_file_name) {
+                    return value[1];
                 } else {
-                    a[i].style.display = "none";
+                    return 1
                 }
-            }
+            });
         }
 
-        function filterFunction2() {
-            let input, filter, ul, li, a, i;
-            input = document.getElementById("myInput2");
-            filter = input.value.toUpperCase();
-            div = document.getElementById("dataDropdown");
-            a = div.getElementsByTagName("a");
-            for (i = 0; i < a.length; i++) {
-                txtValue = a[i].textContent || a[i].innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    a[i].style.display = "";
-                } else {
-                    a[i].style.display = "none";
-                }
-            }
-        }
+        var t = new Date().getDate() + (6 - new Date().getDay() - 1) - 7;
+        var lastFriday = new Date();
+        lastFriday.setDate(t);
+        console.log(lastFriday);
 
-        function filterFunction3() {
-            let input, filter, ul, li, a, i;
-            input = document.getElementById("myInput3");
-            filter = input.value.toUpperCase();
-            div = document.getElementById("yearlyDropdown");
-            a = div.getElementsByTagName("a");
-            for (i = 0; i < a.length; i++) {
-                txtValue = a[i].textContent || a[i].innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    a[i].style.display = "";
-                } else {
-                    a[i].style.display = "none";
-                }
-            }
-        }
+        var t = new Date().getDate() + (4 - new Date().getDay() - 1) - 7;
+        var lastWednesday = new Date();
+        lastWednesday.setDate(t);
+        console.log(lastWednesday);
+
+        var t = new Date().getDate() + (6 - new Date().getDay() - 4) - 7;
+        var firstFriday = new Date();
+        firstFriday.setDate(t);
+        console.log(firstFriday);
 
 
-        $(document).ready(function () {
-            localStorage.clear();
-            let colors = ['#FFB5E8', '#ff9cee', '#ffccf9', '#fcc2ff', '#f6a6ff', '#b28dff', '#c5a3ff', '#d5aaff', '#ecd4ff', '#fbe4ff', '#dcd3ff', '#a79aff', '#b5b9ff', '#97a2ff', '#afcbff', '#aff8db', '#c4faf8', '#85e3ff', '#ace7ff', '#6eb5ff', '#bffcc6', '#dbffd6', '#f3ffe3', '#e7ffac', '#fffd1', '#ffc9de', '#ffabab', '#ffbebc', '#ffcbc1', '#fff5ba']
+        $('#calendar').fullCalendar({
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'month,basicWeek,basicDay'
+            },
+            displayEventTime: false,
+            navLinks: true, // can click day/week names to navigate views
+            editable: true,
+            eventLimit: true, // allow "more" link when too many events
+            events: (start, end, timezone, callback) => {
+                $.ajax({
+                    url: 'get-events',
+                    dataType: 'json',
+                    data: {
+                        // our hypothetical feed requires UNIX timestamps
+                        start: start.unix(),
+                        end: end.unix()
+                    },
+                    success: function (res) {
+                        console.log(res)
+                        var events = [];
+                        res.map((value, index) => {
+                            if (value.cadence != null) {
+                                $("#allDropdown").append(`<a id="file-${value.dq_datafile_id}" onclick="selectThis(this)" href="#about">${value.data_file_name}</a>`)
+                            }
 
-            let dow_handler = {
-                'monday': 1,
-                'tuesday': 2,
-                'wednesday': 3,
-                'thursday': 4,
-                'friday': 5,
-                'saturday': 6,
-                'sunday': 7
-            }
-
-            const getRepeatDate = (data_file_name) => {
-                Object.entries(dow_handler).forEach((value, _) => {
-                    if (value[0] == data_file_name) {
-                        return value[1];
-                    } else {
-                        return 1
-                    }
-                });
-            }
-
-            var t = new Date().getDate() + (6 - new Date().getDay() - 1) - 7;
-            var lastFriday = new Date();
-            lastFriday.setDate(t);
-            console.log(lastFriday);
-
-            var t = new Date().getDate() + (4 - new Date().getDay() - 1) - 7;
-            var lastWednesday = new Date();
-            lastWednesday.setDate(t);
-            console.log(lastWednesday);
-
-            var t = new Date().getDate() + (6 - new Date().getDay() - 4) - 7;
-            var firstFriday = new Date();
-            firstFriday.setDate(t);
-            console.log(firstFriday);
-
-
-            $('#calendar').fullCalendar({
-                header: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'month,basicWeek,basicDay'
-                },
-                displayEventTime: false,
-                navLinks: true, // can click day/week names to navigate views
-                editable: true,
-                eventLimit: true, // allow "more" link when too many events
-                events: (start, end, timezone, callback) => {
-                    $.ajax({
-                        url: 'get-events',
-                        dataType: 'json',
-                        data: {
-                            // our hypothetical feed requires UNIX timestamps
-                            start: start.unix(),
-                            end: end.unix()
-                        },
-                        success: function (res) {
-                            console.log(res)
-                            var events = [];
-                            res.map((value, index) => {
-                                if (value.cadence != null) {
-                                    $("#allDropdown").append(`<a id="file-${value.dq_datafile_id}" onclick="selectThis(this)" href="#about">${value.data_file_name}</a>`)
-                                }
-
-                                if (value.cadence == "WEEKLY") {
-	                            if (value.dqfeed__file_status == "RECEIVED"){
+                            if (value.cadence == "WEEKLY") {
+                                if (value.dqfeed__file_status == "RECEIVED") {
                                     const data_file_name = value.data_file_name;
                                     let repeatDay = dow_handler.hasOwnProperty(data_file_name) ? dow_handler[data_file_name] : undefined
 
@@ -380,126 +382,199 @@
                                         title: `${value.data_file_name}`,
                                         start: '2020-04-13',
                                         dow: [repeatDay, 1],
-                                        color: 'green'
-                                       });
-	    } else if (value.dqfeed__file_status == "DELAY"){
-	    const data_file_name = value.data_file_name;
-	    let repeatDay = dow_handler.hasOwnProperty(data_file_name) ? dow_handler[data_file_name] : undefined
+                                        color: '#00ff00'
+                                    });
+                                } else if (value.dqfeed__file_status == "DELAY") {
+                                    const data_file_name = value.data_file_name;
+                                    let repeatDay = dow_handler.hasOwnProperty(data_file_name) ? dow_handler[data_file_name] : undefined
 
-	    events.push({
-	    title: `${value.data_file_name}`,
-	    start: '2020-04-13',
-	    dow: [repeatDay, 1],
-	    color: 'red'
-	    });
-	    }else if (value.dqfeed__file_status == "DELAYED"){
-	    const data_file_name = value.data_file_name;
-	    let repeatDay = dow_handler.hasOwnProperty(data_file_name) ? dow_handler[data_file_name] : undefined
+                                    events.push({
+                                        title: `${value.data_file_name}`,
+                                        start: '2020-04-13',
+                                        dow: [repeatDay, 1],
+                                        color: 'red'
+                                    });
+                                } else if (value.dqfeed__file_status == "DELAYED") {
+                                    const data_file_name = value.data_file_name;
+                                    let repeatDay = dow_handler.hasOwnProperty(data_file_name) ? dow_handler[data_file_name] : undefined
 
-	    events.push({
-	    title: `${value.data_file_name}`,
-	    start: '2020-04-13',
-	    dow: [repeatDay, 1],
-	    color: 'yellow'
-	    });
-	    }else if (value.dqfeed__file_status == "EXPECTED"){
-	    const data_file_name = value.data_file_name;
-	    let repeatDay = dow_handler.hasOwnProperty(data_file_name) ? dow_handler[data_file_name] : undefined
+                                    events.push({
+                                        title: `${value.data_file_name}`,
+                                        start: '2020-04-13',
+                                        dow: [repeatDay, 1],
+                                        color: 'yellow'
+                                    });
+                                } else if (value.dqfeed__file_status == "EXPECTED") {
+                                    const data_file_name = value.data_file_name;
+                                    let repeatDay = dow_handler.hasOwnProperty(data_file_name) ? dow_handler[data_file_name] : undefined
 
-	    events.push({
-	    title: `${value.data_file_name}`,
-	    start: '2020-04-13',
-	    dow: [repeatDay, 1],
-	    color: 'grey'
-	    });
-	    }
-            } else if (value.cadence == "MONTHLY") {
-	    if (value.dqfeed__file_status == "RECEIVED"){
-            const data_file_name = value.data_file_name;
-            let repeatDay = dow_handler.hasOwnProperty(data_file_name) ? dow_handler[data_file_name] : undefined
-	    
-            events.push({
-            title: `${value.data_file_name}`,
-            start: lastFriday,
-            repeat: 1,
-            color: 'green'
-            });
-	    }else if (value.dqfeed__file_status == "DELAY"){
-	    const data_file_name = value.data_file_name;
-	    let repeatDay = dow_handler.hasOwnProperty(data_file_name) ? dow_handler[data_file_name] : undefined
+                                    events.push({
+                                        title: `${value.data_file_name}`,
+                                        start: '2020-04-13',
+                                        dow: [repeatDay, 1],
+                                        color: 'grey'
+                                    });
+                                } else {
+                                    const data_file_name = value.data_file_name;
+                                    let repeatDay = dow_handler.hasOwnProperty(data_file_name) ? dow_handler[data_file_name] : undefined
 
-	    
-	    events.push({
-	    title: `${value.data_file_name}`,
-	    start: lastFriday,
-	    repeat: 1,
-	    color: 'red'
-	    });
-	    }else if (value.dqfeed__file_status == "DELAYED"){
-	    const data_file_name = value.data_file_name;
-	    let repeatDay = dow_handler.hasOwnProperty(data_file_name) ? dow_handler[data_file_name] : undefined
+                                    events.push({
+                                        title: `${value.data_file_name}`,
+                                        start: '2020-04-13',
+                                        dow: [repeatDay, 1],
+                                        color: '#e7e7e7'
+                                    });
+                                }
+                            } else if (value.cadence == "MONTHLY") {
 
-	    events.push({
-	    title: `${value.data_file_name}`,
-	    start: lastFriday,
-	    repeat: 1,
-	    color: 'yellow'
-	    });
-	    }else if (value.dqfeed__file_status == "EXPECTED"){
-	    const data_file_name = value.data_file_name;
-	    let repeatDay = dow_handler.hasOwnProperty(data_file_name) ? dow_handler[data_file_name] : undefined
+                                if (value.dqfeed__file_status == "RECEIVED") {
+                                    const data_file_name = value.data_file_name;
+                                    let repeatDay = dow_handler.hasOwnProperty(data_file_name) ? dow_handler[data_file_name] : undefined
 
-	    events.push({
-	    title: `${value.data_file_name}`,
-	    start: lastFriday,
-	    repeat: 1,
-	    color: 'grey'
-	    });
-	    }
-            } else {
-	    if (value.dqfeed__file_status == "RECEIVED"){
-            events.push({
-            title: `${value.data_file_name}`,
-            start: lastWednesday,
-            repeat: 1,
-            color: 'green'
-            });
-	    }
-	    if (value.dqfeed__file_status == "DELAY"){
-	    events.push({
-	    title: `${value.data_file_name}`,
-	    start: lastWednesday,
-	    repeat: 1,
-	    color: 'red'
-	    });
-	    }
-	    if (value.dqfeed__file_status == "DELAYED"){
-	    events.push({
-	    title: `${value.data_file_name}`,
-	    start: lastWednesday,
-	    repeat: 1,
-	    color: 'yellow'
-	    });
-	    }
-	    if (value.dqfeed__file_status == "EXPECTED"){
-	    events.push({
-	    title: `${value.data_file_name}`,
-	    start: lastWednesday,
-	    repeat: 1,
-	    color: 'grey'
-	    });
-	    }
-	    
+                                    events.push({
+                                        title: `${value.data_file_name}`,
+                                        start: lastFriday,
+                                        repeat: 1,
+                                        color: '#00ff00'
+                                    });
+                                } else if (value.dqfeed__file_status == "DELAY") {
+                                    const data_file_name = value.data_file_name;
+                                    let repeatDay = dow_handler.hasOwnProperty(data_file_name) ? dow_handler[data_file_name] : undefined
+
+
+                                    events.push({
+                                        title: `${value.data_file_name}`,
+                                        start: lastFriday,
+                                        repeat: 1,
+                                        color: 'red'
+                                    });
+                                } else if (value.dqfeed__file_status == "DELAYED") {
+                                    const data_file_name = value.data_file_name;
+                                    let repeatDay = dow_handler.hasOwnProperty(data_file_name) ? dow_handler[data_file_name] : undefined
+
+                                    events.push({
+                                        title: `${value.data_file_name}`,
+                                        start: lastFriday,
+                                        repeat: 1,
+                                        color: 'yellow'
+                                    });
+                                } else if (value.dqfeed__file_status == "EXPECTED") {
+                                    const data_file_name = value.data_file_name;
+                                    let repeatDay = dow_handler.hasOwnProperty(data_file_name) ? dow_handler[data_file_name] : undefined
+
+                                    events.push({
+                                        title: `${value.data_file_name}`,
+                                        start: lastFriday,
+                                        repeat: 1,
+                                        color: 'grey'
+                                    });
+                                } else {
+                                    const data_file_name = value.data_file_name;
+                                    let repeatDay = dow_handler.hasOwnProperty(data_file_name) ? dow_handler[data_file_name] : undefined
+
+                                    events.push({
+                                        title: `${value.data_file_name}`,
+                                        start: lastFriday,
+                                        repeat: 1,
+                                        color: '#ffccf9'
+                                    });
+                                }
+                            } else if (value.cadence == "DAILY") {
+
+                                if (value.dqfeed__file_status == "RECEIVED") {
+                                    const data_file_name = value.data_file_name;
+                                    let repeatDay = dow_handler.hasOwnProperty(data_file_name) ? dow_handler[data_file_name] : undefined
+
+                                    events.push({
+                                        title: `${value.data_file_name}`,
+                                        start: '2020-05-01',
+                                        dow: [repeatDay, 1, 2, 3, 4, 5],
+                                        color: '#00ff00'
+                                    });
+                                } else if (value.dqfeed__file_status == "DELAY") {
+                                    const data_file_name = value.data_file_name;
+                                    let repeatDay = dow_handler.hasOwnProperty(data_file_name) ? dow_handler[data_file_name] : undefined
+
+                                    events.push({
+                                        title: `${value.data_file_name}`,
+                                        start: '2020-05-01',
+                                        dow: [repeatDay, 1, 2, 3, 4, 5],
+                                        color: 'red'
+                                    });
+                                } else if (value.dqfeed__file_status == "DELAYED") {
+                                    const data_file_name = value.data_file_name;
+                                    let repeatDay = dow_handler.hasOwnProperty(data_file_name) ? dow_handler[data_file_name] : undefined
+
+                                    events.push({
+                                        title: `${value.data_file_name}`,
+                                        start: '2020-05-01',
+                                        dow: [repeatDay, 1, 2, 3, 4, 5],
+                                        color: 'yellow'
+                                    });
+                                } else if (value.dqfeed__file_status == "EXPECTED") {
+                                    const data_file_name = value.data_file_name;
+                                    let repeatDay = dow_handler.hasOwnProperty(data_file_name) ? dow_handler[data_file_name] : undefined
+
+                                    events.push({
+                                        title: `${value.data_file_name}`,
+                                        start: '2020-05-01',
+                                        dow: [repeatDay, 1, 2, 3, 4, 5],
+                                        color: 'grey'
+                                    });
+                                } else {
+                                    const data_file_name = value.data_file_name;
+                                    let repeatDay = dow_handler.hasOwnProperty(data_file_name) ? dow_handler[data_file_name] : undefined
+
+                                    events.push({
+                                        title: `${value.data_file_name}`,
+                                        start: '2020-05-01',
+                                        dow: [repeatDay, 1, 2, 3, 4, 5],
+                                        color: '#ffccf9'
+                                    });
+                                }
+                            } else {
+
+                                if (value.dqfeed__file_status == "RECEIVED") {
+                                    events.push({
+                                        title: `${value.data_file_name}`,
+                                        start: lastWednesday,
+                                        repeat: 1,
+                                        color: '#00ff00'
+                                    });
+                                } else if (value.dqfeed__file_status == "DELAY") {
+                                    events.push({
+                                        title: `${value.data_file_name}`,
+                                        start: lastWednesday,
+                                        repeat: 1,
+                                        color: 'red'
+                                    });
+                                } else if (value.dqfeed__file_status == "DELAYED") {
+                                    events.push({
+                                        title: `${value.data_file_name}`,
+                                        start: lastWednesday,
+                                        repeat: 1,
+                                        color: 'yellow'
+                                    });
+                                } else if (value.dqfeed__file_status == "EXPECTED") {
+                                    events.push({
+                                        title: `${value.data_file_name}`,
+                                        start: lastWednesday,
+                                        repeat: 1,
+                                        color: 'grey'
+                                    });
+                                }
+                            }
+                        })
+
+                        callback(events);
+                    }
+                });
             }
-            })
-            callback(events);
-            }
-            });
-            }
-            });
-
         });
-    </script>
+
+
+    })
+</script>
 </body>
 
 </html>
