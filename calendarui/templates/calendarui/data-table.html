@@ -1,24 +1,30 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
-    <title></title>
-    <!-- CND -->
-    <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.print.min.css' rel='stylesheet'
-          media='print'/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css">
-    <!-- JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.20/js/jquery.dataTables.min.js"
-            type="text/javascript"></script>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css"/>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <style>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+        <title></title>
+        <!-- CND -->
+        <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.print.min.css' rel='stylesheet'
+                              media='print'/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css">
+        <!-- JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.20/js/jquery.dataTables.min.js"
+                type="text/javascript"></script>
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css"/>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+                               integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <style>
+thead {
+    background-color: #A3B8D0;
+}
+        input[type='search']{
+            border-radius: 10px;
+        }
         .fc-title {
             color: black !important;
         }
@@ -121,221 +127,264 @@
         .show {
             display: block;
         }
-    </style>
+        </style>
 
-</head>
-<body>
-<br/>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <div class="d-lg-flex flex-row topnav" style= "padding-bottom: 1rem;" id="form"> 
+    </head>
+    <body>
+        <br/>
+        <div class="container-fluid">
+            <div class="row">
                 <form class="form-inline">
-                    <div class="form-group">
-                        <label>Recieved Date</label>
-                        <input type="text" id="rec-date" />
+                    <div class="col-2">
+                        <div class="form-group">
+                            <label>Recieved Date</label>
+                            <input type="text" id="rec-date" class="form-control w-100" />
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>Recieved Via</label><br>
-                        <select id="rc-via">
-                            <option value="" selected="selected">----</option>
-                            {% for row in rows %}
-                            <option value="{{row.feed_received_via}}">{{row.feed_received_via}}</option>
-                            {% endfor %}
-                        </select>
+                    <div class="col-2 ml-2">
+                        <div class="form-group">
+                            <label>Recieved Via</label><br>
+                            <select id="rc-via" class="form-control" >
+                                <option value="" selected="selected">----</option>
+                                {% for row in rows %}
+                                <option value="{{row.feed_received_via}}">{{row.feed_received_via}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>File Type</label>
-                        <select id="file-type">
-                            <option value="" selected="selected">----</option>
-                            {% for row in rows %}
+                    <div class="col-2">
+                        <div class="form-group">
+                            <label>File Type</label>
+                            <select id="file-type" class="form-control" >
+                                <option value="" selected="selected">----</option>
+                                {% for row in rows %}
                                 <option value="{{row.source_datafile_type}}">{{row.source_datafile_type}}</option>
-                            {% endfor %}
-                        </select>
+                                {% endfor %}
+                            </select>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>Category</label>
-                        <select id="category">
-                            <option value="" selected="selected">----</option>
-                            {% for row in rows %} 
-                            <option value="{{row.category}}">{{row.category}}</option>
-                            {% endfor %}
-                        </select>
+                    <div class="col-2">
+                        <div class="form-group">
+                            <label>Category</label>
+                            <select id="category" class="form-control" >
+                                <option value="" selected="selected">----</option>
+                                {% for row in rows %}
+                                <option value="{{row.category}}">{{row.category}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
                     </div>
-                    <button type="button" onclick="submitFilter()" class='btn btn-outline-warning'>Submit</button>
+                    <div class="col-2">
+                        <button type="button" onclick="submitFilter()" class='btn btn-outline-warning form-control'>Submit</button>
+                    </div>
                 </form>
+            </div>
+            <br><br>
+            <div class="col-12">
+                <table id="table-data" class="table table-bordered" style="width:100%"></table>
             </div>
         </div>
         </div>
-        <div class="col-12">
-            <table id="table-data" class="table table-bordered" style="width:100%"></table>
-        </div>
-    </div>
-</div>
-    <script>
-        const submitFilter = () => {
-            var table = $("#table-data").DataTable();
-            table.columns(2).search($('#rc-via option:selected').val(), true, false, true).draw();
-            table.columns(1).search($('#file-type option:selected').val(), true, false, true).draw();
-            table.columns(4).search($('#category option:selected').val(), true, false, true).draw();
-            table.columns(3).search($('#rc-date').val(), true, false, true).draw();
-        }
-
-        function changeCategory(obj) {
-            let data = $(obj).html()
-            $("#category").html(data);
-            document.getElementById("yearlyDropdown").classList.remove("show");
-            localStorage.setItem('category', data);
-        }
-
-        function changeWeekly(obj) {
-            let data = $(obj).html()
-            $("#occurence").html(data);
-            document.getElementById("dataDropdown").classList.remove("show");
-            localStorage.setItem('fileType', data);
-        }
-
-        function selectThis(obj) {
-            let data = $(obj).html()
-            $("#selectFile").html(data);
-            document.getElementById("allDropdown").classList.remove("show");
-            localStorage.setItem('receivedVia', data);
-        }
-
-        function myFunction1() {
-            document.getElementById("dataDropdown").classList.remove("show");
-            document.getElementById("yearlyDropdown").classList.remove("show");
-            document.getElementById("allDropdown").classList.toggle("show");
-        }
-
-        function myFunction2() {
-            document.getElementById("allDropdown").classList.remove("show");
-            document.getElementById("yearlyDropdown").classList.remove("show");
-            document.getElementById("dataDropdown").classList.toggle("show");
-        }
-
-        function myFunction3(obj) {
-            document.getElementById("allDropdown").classList.remove("show");
-            document.getElementById("dataDropdown").classList.remove("show");
-            document.getElementById("yearlyDropdown").classList.toggle("show");
-        }
-
-        function filterFunction1() {
-            let input, filter, ul, li, a, i;
-            input = document.getElementById("myInput1");
-            filter = input.value.toUpperCase();
-            div = document.getElementById("allDropdown");
-            a = div.getElementsByTagName("a");
-            for (i = 0; i < a.length; i++) {
-                txtValue = a[i].textContent || a[i].innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    a[i].style.display = "";
-                } else {
-                    a[i].style.display = "none";
-                }
+        <script>
+            const submitFilter = () => {
+                var table = $("#table-data").DataTable();
+                table.columns(2).search($('#rc-via option:selected').val(), true, false, true).draw();
+                table.columns(1).search($('#file-type option:selected').val(), true, false, true).draw();
+                table.columns(4).search($('#category option:selected').val(), true, false, true).draw();
+                table.columns(3).search($('#rc-date').val(), true, false, true).draw();
             }
-        }
 
-        function filterFunction2() {
-            let input, filter, ul, li, a, i;
-            input = document.getElementById("myInput2");
-            filter = input.value.toUpperCase();
-            div = document.getElementById("dataDropdown");
-            a = div.getElementsByTagName("a");
-            for (i = 0; i < a.length; i++) {
-                txtValue = a[i].textContent || a[i].innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    a[i].style.display = "";
-                } else {
-                    a[i].style.display = "none";
+function changeCategory(obj) {
+    let data = $(obj).html()
+    $("#category").html(data);
+    document.getElementById("yearlyDropdown").classList.remove("show");
+    localStorage.setItem('category', data);
+}
+
+function changeWeekly(obj) {
+    let data = $(obj).html()
+    $("#occurence").html(data);
+    document.getElementById("dataDropdown").classList.remove("show");
+    localStorage.setItem('fileType', data);
+}
+
+function selectThis(obj) {
+    let data = $(obj).html()
+    $("#selectFile").html(data);
+    document.getElementById("allDropdown").classList.remove("show");
+    localStorage.setItem('receivedVia', data);
+}
+
+function myFunction1() {
+    document.getElementById("dataDropdown").classList.remove("show");
+    document.getElementById("yearlyDropdown").classList.remove("show");
+    document.getElementById("allDropdown").classList.toggle("show");
+}
+
+function myFunction2() {
+    document.getElementById("allDropdown").classList.remove("show");
+    document.getElementById("yearlyDropdown").classList.remove("show");
+    document.getElementById("dataDropdown").classList.toggle("show");
+}
+
+function myFunction3(obj) {
+    document.getElementById("allDropdown").classList.remove("show");
+    document.getElementById("dataDropdown").classList.remove("show");
+    document.getElementById("yearlyDropdown").classList.toggle("show");
+}
+
+function filterFunction1() {
+    let input, filter, ul, li, a, i;
+    input = document.getElementById("myInput1");
+    filter = input.value.toUpperCase();
+    div = document.getElementById("allDropdown");
+    a = div.getElementsByTagName("a");
+    for (i = 0; i < a.length; i++) {
+        txtValue = a[i].textContent || a[i].innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            a[i].style.display = "";
+        } else {
+            a[i].style.display = "none";
+        }
+    }
+}
+
+function filterFunction2() {
+    let input, filter, ul, li, a, i;
+    input = document.getElementById("myInput2");
+    filter = input.value.toUpperCase();
+    div = document.getElementById("dataDropdown");
+    a = div.getElementsByTagName("a");
+    for (i = 0; i < a.length; i++) {
+        txtValue = a[i].textContent || a[i].innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            a[i].style.display = "";
+        } else {
+            a[i].style.display = "none";
+        }
+    }
+}
+
+function filterFunction3() {
+    let input, filter, ul, li, a, i;
+    input = document.getElementById("myInput3");
+    filter = input.value.toUpperCase();
+    div = document.getElementById("yearlyDropdown");
+    a = div.getElementsByTagName("a");
+    for (i = 0; i < a.length; i++) {
+        txtValue = a[i].textContent || a[i].innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            a[i].style.display = "";
+        } else {
+            a[i].style.display = "none";
+        }
+    }
+}
+
+$(document).ready(() => {
+    let formData = new FormData();
+
+    let filename = "{{filename}}";
+    let category = "{{category}}";
+    let occurence = "{{occurence}}";
+
+    //file-name=${fileName ? fileName : ''}&yearly=${yearly ? yearly : ''}&occurence=${occurence ? occurence : ''}`
+
+    let assignments_table = $("#table-data")
+    assignments_table.DataTable({
+        "processing": true,
+        "serverSide": false,
+        "ajax": {
+            "url": 'get-table-data',
+            "data": {'file-name': filename, 'category': category, 'occurence': occurence},
+            dataSrc: "",
+        },
+        "columns": [
+            {
+                "title": "Source File",
+                "render": (data, type, row) => {
+                    if(row.source_datafile_name){
+                        return row.source_datafile_name
+                    }else{
+                        return 'Null'
+                    }
                 }
-            }
-        }
-
-        function filterFunction3() {
-            let input, filter, ul, li, a, i;
-            input = document.getElementById("myInput3");
-            filter = input.value.toUpperCase();
-            div = document.getElementById("yearlyDropdown");
-            a = div.getElementsByTagName("a");
-            for (i = 0; i < a.length; i++) {
-                txtValue = a[i].textContent || a[i].innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    a[i].style.display = "";
-                } else {
-                    a[i].style.display = "none";
+            },
+            {
+                "title": "Data File Type",
+                "render": (data, type, row) => {
+                    if(row.source_datafile_type){
+                        return row.source_datafile_name
+                    }else{
+                        return 'Null'
+                    }
                 }
-            }
-        }
-
-        $(document).ready(() => {
-            let formData = new FormData();
-
-            let filename = "{{filename}}";
-            let category = "{{category}}";
-            let occurence = "{{occurence}}";
-
-            //file-name=${fileName ? fileName : ''}&yearly=${yearly ? yearly : ''}&occurence=${occurence ? occurence : ''}`
-
-            let assignments_table = $("#table-data")
-            assignments_table.DataTable({
-                "processing": true,
-                "serverSide": false,
-                "ajax": {
-                    "url": 'get-table-data',
-                    "data": {'file-name': filename, 'category': category, 'occurence': occurence},
-                    dataSrc: "",
+            },
+            {
+                "title": "Received Via",
+                "render": function (data, type, row) {
+                    if(row.feed_received_via){
+                        return row.feed_received_via
+                    }else{
+                        return 'Null'
+                    }
                 },
-                "columns": [
-                    {
-                        "title": "Source File",
-                        "data": "source_datafile_name",
-                    },
-                    {
-                        "title": "Data File Type",
-                        "data": "source_datafile_type"
-                    },
-                    {
-                        "title": "Received Via",
-                        "render": function (data, type, row) {
-                            return row.feed_received_via
-                        },
-                    },
-                    {
-                        "title": "Recieved Date",
-                        "render": function (data, type, row) {
-                            return row.received_date
-                        },
-                    },
-                    {
-                        "title": "Category",
-                        "render": function (data, type, row) {
-                            return row.category
-                        },
-                    },
-                    {
-                        "title": "Total Rows in Source",
-                        "render": function (data, type, row) {
-                            return row.total_rows_in_source_file
-                        },
-                    },
-                    {
-                        "title": "Rows Loaded",
-                        "render": function (data, type, row) {
-                            return row.rows_loaded
-                        },
-                    },
-                    {
-                        "title": "Rows Failed to Load",
-                        "render": function (data, type, row) {
-                            return row.rows_failed_to_load
-                        },
-                    },
-                ],
-            });
-        });
+            },
+            {
+                "title": "Recieved Date",
+                "render": function (data, type, row) {
+                    if (row.received_date){
+                        return row.received_date
+                    }else{
+                        return 'Null'
+                    }
+                },
+            },
+            {
+                "title": "Category",
+                "render": function (data, type, row) {
+                    if (row.category){
+                        return row.category
+                    }else{
+                        return 'Null'
+                    }
+                },
+            },
+            {
+                "title": "Total Rows in Source",
+                "render": function (data, type, row) {
+                    if(row.total_rows_in_source_file){
+                        return row.total_rows_in_source_file
+                    }else{
+                        return 'Null'
+                    }
+                },
+            },
+            {
+                "title": "Rows Loaded",
+                "render": function (data, type, row) {
+                    if (row.rows_loaded){
+                        return row.rows_loaded
+                    }else{
+                        return 'Null'
+                    }
+                },
+            },
+            {
+                "title": "Rows Failed to Load",
+                "render": function (data, type, row) {
+                    if (row.rows_failed_to_load){
+                        return row.rows_failed_to_load
+                    }else{
+                        return 'Null'
+                    }
+                },
+            },
+        ],
+    });
+});
 
-    </script>
-</body>
+        </script>
+    </body>
 
 </html>
