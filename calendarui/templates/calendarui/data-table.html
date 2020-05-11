@@ -131,88 +131,117 @@ thead {
 
     </head>
     <body>
-        <br/>
+      <br>
+      <br>
         <div class="container-fluid">
-            <div class="row">
-                <form class="form-inline">
-                    <div class="col-2">
-                        <div class="form-group">
-                            <label>Recieved Date</label>
-                            <input type="text" id="rec-date" class="form-control w-100" />
-                        </div>
-                    </div>
-                    <div class="col-2 ml-2">
-                        <div class="form-group">
-                            <label>Recieved Via</label><br>
-                            <select id="rc-via" class="form-control" >
-                                <option value="" selected="selected">----</option>
-                                {% for row in rows %}
-                                <option value="{{row.feed_received_via}}">{{row.feed_received_via}}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-2">
-                        <div class="form-group">
-                            <label>File Type</label>
-                            <select id="file-type" class="form-control" >
-                                <option value="" selected="selected">----</option>
-                                {% for row in rows %}
-                                <option value="{{row.source_datafile_type}}">{{row.source_datafile_type}}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-2">
-                        <div class="form-group">
-                            <label>Category</label>
-                            <select id="category" class="form-control" >
-                                <option value="" selected="selected">----</option>
-                                {% for row in rows %}
-                                <option value="{{row.category}}">{{row.category}}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-2">
-                        <button type="button" onclick="submitFilter()" class='btn btn-outline-warning form-control'>Submit</button>
-                    </div>
-                </form>
-            </div>
-            <br><br>
+	  
+          <div class="row">
+	    	
+		<div id="buttons-container" class="container form-container" style="margin-left: 14px;">
+		  <div class="dropdown">
+		    <input type="text" id="rec-date" placeholder="Recieved Date" class="form-control w-100 fc-month-button fc-button fc-state-default border-style" />
+		  </div>
+		  
+		  <div class="dropdown all">
+		    
+		    <button onclick="myFunction1()" id="selectFile" class="fc-month-button fc-button fc-state-default border-style">
+		      Recieved Via
+		    </button>
+		    
+		    <div id="allDropdown" class="dropdown-content" style="z-index: 20;">
+		      <input class="myInput" type="text" placeholder="Search.." id="myInput1" onkeyup="filterFunction1()">
+		      {% for row in rows %}
+		      <a href="#" onclick="selectThis(this)">{{ row.feed_received_via }}</a>
+		      {% endfor %}
+		    </div>
+		    
+		  </div>
+		  
+		  <div class="dropdown data">
+		    
+		    <button onclick="myFunction2()" class="fc-month-button fc-button fc-state-default border-style" id="filetype">
+		      File Type
+		    </button>
+		    
+		    <div id="dataDropdown" class="dropdown-content" style="z-index: 20;">
+		      <input class="myInput" type="text" placeholder="Search.." id="myInput2" onkeyup="filterFunction2()">
+		      {% for row in rows %}
+		      <a href="#" onclick="changeWeekly(this)">{{ row.source_datafile_type }}</a>
+		      {% endfor %}
+		    </div>
+		    
+		  </div>
+		  
+		  <div class="dropdown yearly">
+
+		    <button onclick="myFunction3(this)" class="fc-month-button fc-button fc-state-default border-style" id="category">
+		      Category
+		    </button>
+		    
+		    <div id="yearlyDropdown" class="dropdown-content" style="z-index: 20;">
+		      <input class="myInput" type="text" placeholder="Search.." id="myInput3" onkeyup="filterFunction3()">
+		      {% for row in rows %}
+		      <a href="#" onclick="changeCategory(this)">{{row.category}}</a>
+		      {% endfor %}
+		    </div>
+		  
+		  </div>
+		  
+		  <div class="dropdown">
+                    <button type="button" onclick="submitFilter()" class="fc-month-button fc-button fc-state-default border-style submit-button">Submit</button>
+                  </div>
+		  
+		</div>
+                <!--</form>-->
+		<br>
+		<br>
+		<br>
             <div class="col-12">
                 <table id="table-data" class="table table-bordered" style="width:100%"></table>
             </div>
+          </div>
         </div>
-        </div>
-        <script>
-            const submitFilter = () => {
-                var table = $("#table-data").DataTable();
-                table.columns(2).search($('#rc-via option:selected').val(), true, false, true).draw();
-                table.columns(1).search($('#file-type option:selected').val(), true, false, true).draw();
-                table.columns(4).search($('#category option:selected').val(), true, false, true).draw();
-                table.columns(3).search($('#rc-date').val(), true, false, true).draw();
-            }
+
+	<script>
+          const submitFilter = () => {
+          var table = $("#table-data").DataTable();
+	  let filetype = localStorage.getItem('fileType');
+	  let category = localStorage.getItem('category');
+	  let recvia = localStorage.getItem('receivedVia');
+	  console.log(recvia);
+	  console.log(category);
+          table.columns(2).search(recvia,true, false, true).draw();
+          table.columns(1).search(filetype,true, false, true).draw();
+          table.columns(4).search(category,true, false, true).draw();
+          table.columns(3).search($('#rc-date').val(), true, false, true).draw();
+          }
 
 function changeCategory(obj) {
     let data = $(obj).html()
     $("#category").html(data);
     document.getElementById("yearlyDropdown").classList.remove("show");
-    localStorage.setItem('category', data);
+	  localStorage.setItem('category', data);
+	  //localStorage.removeItem("fileType");
+	  //localStorage.removeItem("receivedVia");
+	  
 }
 
 function changeWeekly(obj) {
     let data = $(obj).html()
-    $("#occurence").html(data);
+    $("#filetype").html(data);
     document.getElementById("dataDropdown").classList.remove("show");
-    localStorage.setItem('fileType', data);
-}
+	  localStorage.setItem('fileType', data);
+	  //localStorage.removeItem("receivedVia");
+	  //localStorage.removeItem("category");
+	  }
 
 function selectThis(obj) {
     let data = $(obj).html()
     $("#selectFile").html(data);
     document.getElementById("allDropdown").classList.remove("show");
-    localStorage.setItem('receivedVia', data);
+	  localStorage.setItem('receivedVia', data);
+	  //localStorage.removeItem("category");
+	  //localStorage.removeItem("fileType");
 }
 
 function myFunction1() {
@@ -265,22 +294,23 @@ function filterFunction2() {
     }
 }
 
-function filterFunction3() {
-    let input, filter, ul, li, a, i;
-    input = document.getElementById("myInput3");
-    filter = input.value.toUpperCase();
-    div = document.getElementById("yearlyDropdown");
-    a = div.getElementsByTagName("a");
-    for (i = 0; i < a.length; i++) {
-        txtValue = a[i].textContent || a[i].innerText;
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-            a[i].style.display = "";
-        } else {
-            a[i].style.display = "none";
-        }
-    }
-}
-
+	      function filterFunction3() {
+	      let input, filter, ul, li, a, i;
+	      input = document.getElementById("myInput3");
+	      filter = input.value.toUpperCase();
+	      div = document.getElementById("dataDropdown");
+	      a = div.getElementsByTagName("a");
+	      for (i = 0; i < a.length; i++) {
+			      txtValue = a[i].textContent || a[i].innerText;
+			      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+		a[i].style.display = "";
+		} else {
+		a[i].style.display = "none";
+		        }
+		}
+		}
+		
+		
 $(document).ready(() => {
     let formData = new FormData();
 
@@ -382,9 +412,9 @@ $(document).ready(() => {
             },
         ],
     });
-});
+})
 
-        </script>
+</script>
     </body>
 
 </html>
