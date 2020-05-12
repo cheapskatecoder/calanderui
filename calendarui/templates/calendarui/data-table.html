@@ -1,30 +1,37 @@
 <!DOCTYPE html>
 <html>
 
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width">
-        <title></title>
-        <!-- CND -->
-        <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.print.min.css' rel='stylesheet'
-                              media='print'/>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css">
-        <!-- JS -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.20/js/jquery.dataTables.min.js"
-                type="text/javascript"></script>
-        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css"/>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-                               integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <style>
-thead {
-    background-color: #A3B8D0;
-}
-        input[type='search']{
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title></title>
+
+    <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.print.min.css' rel='stylesheet'
+          media='print'/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <!-- JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.js"></script>
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.20/js/jquery.dataTables.min.js"
+        type="text/javascript"></script>
+
+    <style>
+        thead {
+            background-color: #A3B8D0;
+        }
+
+        input[type='search'] {
             border-radius: 10px;
         }
+
         .fc-title {
             color: black !important;
         }
@@ -123,298 +130,375 @@ thead {
             font-size: 18px;
         }
 
-
         .show {
             display: block;
         }
-        </style>
+    </style>
 
-    </head>
-    <body>
-      <br>
-      <br>
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse">
         <div class="container-fluid">
-	  
-          <div class="row">
-	    	
-		<div id="buttons-container" class="container form-container" style="margin-left: 14px;">
-		  <div class="dropdown">
-		    <input type="text" id="rec-date" placeholder="Recieved Date" class="form-control w-100 fc-month-button fc-button fc-state-default border-style" />
-		  </div>
-		  
-		  <div class="dropdown all">
-		    
-		    <button onclick="myFunction1()" id="selectFile" class="fc-month-button fc-button fc-state-default border-style">
-		      Recieved Via
-		    </button>
-		    
-		    <div id="allDropdown" class="dropdown-content" style="z-index: 20;">
-		      <input class="myInput" type="text" placeholder="Search.." id="myInput1" onkeyup="filterFunction1()">
-		      {% for row in rows %}
-		      <a href="#" onclick="selectThis(this)">{{ row.feed_received_via }}</a>
-		      {% endfor %}
-		    </div>
-		    
-		  </div>
-		  
-		  <div class="dropdown data">
-		    
-		    <button onclick="myFunction2()" class="fc-month-button fc-button fc-state-default border-style" id="filetype">
-		      File Type
-		    </button>
-		    
-		    <div id="dataDropdown" class="dropdown-content" style="z-index: 20;">
-		      <input class="myInput" type="text" placeholder="Search.." id="myInput2" onkeyup="filterFunction2()">
-		      {% for row in rows %}
-		      <a href="#" onclick="changeWeekly(this)">{{ row.source_datafile_type }}</a>
-		      {% endfor %}
-		    </div>
-		    
-		  </div>
-		  
-		  <div class="dropdown yearly">
+            <div class="navbar-header">
+                <!--<a class="navbar-brand" href="#">WebSiteName</a>-->
+            </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="calendarUi">Calendar</a></li>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-left">
+                <!--<li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>-->
+                <li><a href="/calendarui/data-table"><span class="glyphicon glyphicon-th-list"></span> Data Table</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <br>
+    <br>
+    <div class="container-fluid">
 
-		    <button onclick="myFunction3(this)" class="fc-month-button fc-button fc-state-default border-style" id="category">
-		      Category
-		    </button>
-		    
-		    <div id="yearlyDropdown" class="dropdown-content" style="z-index: 20;">
-		      <input class="myInput" type="text" placeholder="Search.." id="myInput3" onkeyup="filterFunction3()">
-		      {% for row in rows %}
-		      <a href="#" onclick="changeCategory(this)">{{row.category}}</a>
-		      {% endfor %}
-		    </div>
-		  
-		  </div>
-		  
-		  <div class="dropdown">
-                    <button type="button" onclick="submitFilter()" class="fc-month-button fc-button fc-state-default border-style submit-button">Submit</button>
-                  </div>
-		  
-		</div>
-                <!--</form>-->
-		<br>
-		<br>
-		<br>
+        <div class="row">
+
+            <div id="buttons-container" class="container form-container" style="margin-left: 14px;">
+                <div class="dropdown">
+                    <input type="text" id="rec-date" placeholder="Recieved Date"
+                        class="form-control w-100 fc-month-button fc-button fc-state-default border-style" />
+                </div>
+
+                <div class="dropdown all" hidden="hidden">
+
+                    <button onclick="myFunction1()" id="selectFile"
+                        class="fc-month-button fc-button fc-state-default border-style">
+                        Recieved Via
+                    </button>
+
+                    <div id="allDropdown" class="dropdown-content" style="z-index: 20;">
+                        <input class="myInput" type="text" placeholder="Search.." id="myInput1"
+                            onkeyup="filterFunction1()">
+                        {% for row in rows %}
+                        <a href="#" onclick="selectThis(this)">{{ row.feed_received_via }}</a>
+                        {% endfor %}
+                    </div>
+
+                </div>
+
+                <div class="dropdown data">
+
+                    <button onclick="myFunction2()" class="fc-month-button fc-button fc-state-default border-style"
+                        id="filetype">
+                        File Type
+                    </button>
+
+                    <div id="dataDropdown" class="dropdown-content" style="z-index: 20;">
+                        <input class="myInput" type="text" placeholder="Search.." id="myInput2"
+                            onkeyup="filterFunction2()">
+                        {% for row in rows %}
+                        <a href="#" onclick="changeWeekly(this)">{{ row.source_datafile_type }}</a>
+                        {% endfor %}
+                    </div>
+
+                </div>
+
+                <div class="dropdown yearly">
+
+                    <button onclick="myFunction3(this)" class="fc-month-button fc-button fc-state-default border-style"
+                        id="category">
+                        Category
+                    </button>
+
+                    <div id="yearlyDropdown" class="dropdown-content" style="z-index: 20;">
+                        <input class="myInput" type="text" placeholder="Search.." id="myInput3"
+                            onkeyup="filterFunction3()">
+                        {% for row in rows %}
+                        <a href="#" onclick="changeCategory(this)">{{row.category}}</a>
+                        {% endfor %}
+                    </div>
+
+                </div>
+
+                <div class="dropdown">
+                    <button type="button" onclick="submitFilter()"
+                        class="fc-month-button fc-button fc-state-default border-style submit-button">Submit</button>
+                    <button type="button" onclick="resetFilter()"
+                        class="fc-month-button fc-button fc-state-default border-style submit-button">Reset Filters</button>
+                </div>
+
+            </div>
+            <!--</form>-->
+            <br>
+            <br>
+            <br>
             <div class="col-12">
                 <table id="table-data" class="table table-bordered" style="width:100%"></table>
             </div>
-          </div>
         </div>
+    </div>
 
-	<script>
-          const submitFilter = () => {
-          var table = $("#table-data").DataTable();
-	  let filetype = localStorage.getItem('fileType');
-	  let category = localStorage.getItem('category');
-	  let recvia = localStorage.getItem('receivedVia');
-	  console.log(recvia);
-	  console.log(category);
-          table.columns(2).search(recvia,true, false, true).draw();
-          table.columns(1).search(filetype,true, false, true).draw();
-          table.columns(4).search(category,true, false, true).draw();
-          table.columns(3).search($('#rc-date').val(), true, false, true).draw();
-          }
-
-function changeCategory(obj) {
-    let data = $(obj).html()
-    $("#category").html(data);
-    document.getElementById("yearlyDropdown").classList.remove("show");
-	  localStorage.setItem('category', data);
-	  //localStorage.removeItem("fileType");
-	  //localStorage.removeItem("receivedVia");
-	  
-}
-
-function changeWeekly(obj) {
-    let data = $(obj).html()
-    $("#filetype").html(data);
-    document.getElementById("dataDropdown").classList.remove("show");
-	  localStorage.setItem('fileType', data);
-	  //localStorage.removeItem("receivedVia");
-	  //localStorage.removeItem("category");
-	  }
-
-function selectThis(obj) {
-    let data = $(obj).html()
-    $("#selectFile").html(data);
-    document.getElementById("allDropdown").classList.remove("show");
-	  localStorage.setItem('receivedVia', data);
-	  //localStorage.removeItem("category");
-	  //localStorage.removeItem("fileType");
-}
-
-function myFunction1() {
-    document.getElementById("dataDropdown").classList.remove("show");
-    document.getElementById("yearlyDropdown").classList.remove("show");
-    document.getElementById("allDropdown").classList.toggle("show");
-}
-
-function myFunction2() {
-    document.getElementById("allDropdown").classList.remove("show");
-    document.getElementById("yearlyDropdown").classList.remove("show");
-    document.getElementById("dataDropdown").classList.toggle("show");
-}
-
-function myFunction3(obj) {
-    document.getElementById("allDropdown").classList.remove("show");
-    document.getElementById("dataDropdown").classList.remove("show");
-    document.getElementById("yearlyDropdown").classList.toggle("show");
-}
-
-function filterFunction1() {
-    let input, filter, ul, li, a, i;
-    input = document.getElementById("myInput1");
-    filter = input.value.toUpperCase();
-    div = document.getElementById("allDropdown");
-    a = div.getElementsByTagName("a");
-    for (i = 0; i < a.length; i++) {
-        txtValue = a[i].textContent || a[i].innerText;
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-            a[i].style.display = "";
-        } else {
-            a[i].style.display = "none";
+    <script>
+        const resetFilter = () => {
+            let table = $("#table-data").DataTable();
+            $("#filetype").html('File Type')
+            $("#category").html('Category')
+            table.columns().search("").draw();
         }
-    }
-}
 
-function filterFunction2() {
-    let input, filter, ul, li, a, i;
-    input = document.getElementById("myInput2");
-    filter = input.value.toUpperCase();
-    div = document.getElementById("dataDropdown");
-    a = div.getElementsByTagName("a");
-    for (i = 0; i < a.length; i++) {
-        txtValue = a[i].textContent || a[i].innerText;
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-            a[i].style.display = "";
-        } else {
-            a[i].style.display = "none";
+        const submitFilter = () => {
+            var table = $("#table-data").DataTable();
+            let filetype = localStorage.getItem('fileType');
+            let category = localStorage.getItem('category');
+            let recvia = localStorage.getItem('receivedVia');
+            table.columns(4).search(category, true, false, true).draw();
         }
-    }
-}
 
-	      function filterFunction3() {
-	      let input, filter, ul, li, a, i;
-	      input = document.getElementById("myInput3");
-	      filter = input.value.toUpperCase();
-	      div = document.getElementById("dataDropdown");
-	      a = div.getElementsByTagName("a");
-	      for (i = 0; i < a.length; i++) {
-			      txtValue = a[i].textContent || a[i].innerText;
-			      if (txtValue.toUpperCase().indexOf(filter) > -1) {
-		a[i].style.display = "";
-		} else {
-		a[i].style.display = "none";
-		        }
-		}
-		}
-		
-		
-$(document).ready(() => {
-    let formData = new FormData();
+        function changeCategory(obj) {
+            let data = $(obj).html()
+            $("#category").html(data);
+            document.getElementById("yearlyDropdown").classList.remove("show");
+            localStorage.setItem('category', data);
+            //localStorage.removeItem("fileType");
+            //localStorage.removeItem("receivedVia");
+        }
 
-    let filename = "{{filename}}";
-    let category = "{{category}}";
-    let occurence = "{{occurence}}";
+        function changeWeekly(obj) {
+            let data = $(obj).html()
+            $("#filetype").html(data);
+            document.getElementById("dataDropdown").classList.remove("show");
+            localStorage.setItem('fileType', data);
+            //localStorage.removeItem("receivedVia");
+            //localStorage.removeItem("category");
+        }
 
-    //file-name=${fileName ? fileName : ''}&yearly=${yearly ? yearly : ''}&occurence=${occurence ? occurence : ''}`
+        function selectThis(obj) {
+            let data = $(obj).html()
+            $("#selectFile").html(data);
+            document.getElementById("allDropdown").classList.remove("show");
+            localStorage.setItem('receivedVia', data);
+            //localStorage.removeItem("category");
+            //localStorage.removeItem("fileType");
+        }
 
-    let assignments_table = $("#table-data")
-    assignments_table.DataTable({
-        "processing": true,
-        "serverSide": false,
-        "ajax": {
-            "url": 'get-table-data',
-            "data": {'file-name': filename, 'category': category, 'occurence': occurence},
-            dataSrc: "",
-        },
-        "columns": [
-            {
-                "title": "Source File",
-                "render": (data, type, row) => {
-                    if(row.source_datafile_name){
-                        return row.source_datafile_name
-                    }else{
-                        return 'Null'
-                    }
+        function myFunction1() {
+            document.getElementById("dataDropdown").classList.remove("show");
+            document.getElementById("yearlyDropdown").classList.remove("show");
+            document.getElementById("allDropdown").classList.toggle("show");
+        }
+
+        function myFunction2() {
+            document.getElementById("allDropdown").classList.remove("show");
+            document.getElementById("yearlyDropdown").classList.remove("show");
+            document.getElementById("dataDropdown").classList.toggle("show");
+        }
+
+        function myFunction3(obj) {
+            document.getElementById("allDropdown").classList.remove("show");
+            document.getElementById("dataDropdown").classList.remove("show");
+            document.getElementById("yearlyDropdown").classList.toggle("show");
+        }
+
+        function filterFunction1() {
+            let input, filter, ul, li, a, i;
+            input = document.getElementById("myInput1");
+            filter = input.value.toUpperCase();
+            div = document.getElementById("allDropdown");
+            a = div.getElementsByTagName("a");
+            for (i = 0; i < a.length; i++) {
+                txtValue = a[i].textContent || a[i].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    a[i].style.display = "";
+                } else {
+                    a[i].style.display = "none";
                 }
-            },
-            {
-                "title": "Data File Type",
-                "render": (data, type, row) => {
-                    if(row.source_datafile_type){
-                        return row.source_datafile_name
-                    }else{
-                        return 'Null'
-                    }
-                }
-            },
-            {
-                "title": "Received Via",
-                "render": function (data, type, row) {
-                    if(row.feed_received_via){
-                        return row.feed_received_via
-                    }else{
-                        return 'Null'
-                    }
-                },
-            },
-            {
-                "title": "Recieved Date",
-                "render": function (data, type, row) {
-                    if (row.received_date){
-                        return row.received_date
-                    }else{
-                        return 'Null'
-                    }
-                },
-            },
-            {
-                "title": "Category",
-                "render": function (data, type, row) {
-                    if (row.category){
-                        return row.category
-                    }else{
-                        return 'Null'
-                    }
-                },
-            },
-            {
-                "title": "Total Rows in Source",
-                "render": function (data, type, row) {
-                    if(row.total_rows_in_source_file){
-                        return row.total_rows_in_source_file
-                    }else{
-                        return 'Null'
-                    }
-                },
-            },
-            {
-                "title": "Rows Loaded",
-                "render": function (data, type, row) {
-                    if (row.rows_loaded){
-                        return row.rows_loaded
-                    }else{
-                        return 'Null'
-                    }
-                },
-            },
-            {
-                "title": "Rows Failed to Load",
-                "render": function (data, type, row) {
-                    if (row.rows_failed_to_load){
-                        return row.rows_failed_to_load
-                    }else{
-                        return 'Null'
-                    }
-                },
-            },
-        ],
-    });
-})
+            }
+        }
 
-</script>
-    </body>
+        function filterFunction2() {
+            let input, filter, ul, li, a, i;
+            input = document.getElementById("myInput2");
+            filter = input.value.toUpperCase();
+            div = document.getElementById("dataDropdown");
+            a = div.getElementsByTagName("a");
+            for (i = 0; i < a.length; i++) {
+                txtValue = a[i].textContent || a[i].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    a[i].style.display = "";
+                } else {
+                    a[i].style.display = "none";
+                }
+            }
+        }
+
+        function filterFunction3() {
+            let input, filter, ul, li, a, i;
+            input = document.getElementById("myInput3");
+            filter = input.value.toUpperCase();
+            div = document.getElementById("dataDropdown");
+            a = div.getElementsByTagName("a");
+            for (i = 0; i < a.length; i++) {
+                txtValue = a[i].textContent || a[i].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    a[i].style.display = "";
+                } else {
+                    a[i].style.display = "none";
+                }
+            }
+        }
+
+
+        $(document).ready(() => {
+            let formData = new FormData();
+
+            let filename = "{{filename}}";
+            let category = "{{category}}";
+            let occurence = "{{occurence}}";
+
+            //file-name=${fileName ? fileName : ''}&yearly=${yearly ? yearly : ''}&occurence=${occurence ? occurence : ''}`
+
+            let assignments_table = $("#table-data")
+            assignments_table.DataTable({
+                "processing": true,
+                "serverSide": false,
+                "ajax": {
+                    "url": 'get-table-data',
+                    "data": { 'file-name': filename, 'category': category, 'occurence': occurence },
+                    dataSrc: "",
+                },
+                "columns": [
+                    {
+                        "title": "Source File Name",
+                        "render": (data, type, row) => {
+                            if (row.source_datafile_name) {
+                                return row.source_datafile_name
+                            } else {
+                                return 'Null'
+                            }
+                        }
+                    },
+                    {
+                        "title": "Data File Type",
+                        "render": (data, type, row) => {
+                            if (row.source_datafile_type) {
+                                return row.source_datafile_name
+                            } else {
+                                return 'Null'
+                            }
+                        }
+                    },
+                    {
+                        "title": "Source Data File Display",
+                        "render": function (data, type, row) {
+                            if (row.feed_received_via) {
+                                return row.source_datafile_display
+                            } else {
+                                return 'Null'
+                            }
+                        },
+                    },
+                    {
+                        "title": "Recieved Date",
+                        "render": function (data, type, row) {
+                            if (row.received_date) {
+                                return row.received_date
+                            } else {
+                                return 'Null'
+                            }
+                        },
+                    },
+                    {
+                        "title": "Category",
+                        "render": function (data, type, row) {
+                            if (row.category) {
+                                return row.category
+                            } else {
+                                return 'Null'
+                            }
+                        },
+                    },
+                    {
+                        "title": "Total Rows in Source",
+                        "render": function (data, type, row) {
+                            if (row.total_rows_in_source_file) {
+                                return row.total_rows_in_source_file
+                            } else {
+                                return 'Null'
+                            }
+                        },
+                    },
+                    {
+                        "title": "Rows Loaded",
+                        "render": function (data, type, row) {
+                            if (row.rows_loaded) {
+                                return row.rows_loaded
+                            } else {
+                                return 'Null'
+                            }
+                        },
+                    },
+                    {
+                        "title": "Rows Failed to Load",
+                        "render": function (data, type, row) {
+                            if (row.rows_failed_to_load) {
+                                return row.rows_failed_to_load
+                            } else {
+                                return 'Null'
+                            }
+                        },
+                    },
+                    {
+                        "title": "Created At",
+                        "render": function (data, type, row) {
+                            if (row.create_dt) {
+                                return row.create_dt
+                            } else {
+                                return 'Null'
+                            }
+                        },
+                    },
+                    {
+                        "title": "Update At",
+                        "render": function (data, type, row) {
+                            if (row.update_dt) {
+                                return row.update_dt
+                            } else {
+                                return 'Null'
+                            }
+                        },
+                    },
+                    {
+                        "title": "File Status",
+                        "render": function (data, type, row) {
+                            if (row.file_status) {
+                                return row.file_status
+                            } else {
+                                return 'Null'
+                            }
+                        },
+                    },
+                    {
+                        "title": "Number of Files Loaded",
+                        "render": function (data, type, row) {
+                            if (row.number_of_files_loaded) {
+                                return row.file_status
+                            } else {
+                                return 'Null'
+                            }
+                        },
+                    },
+                    {
+                        "title": "Expected Date",
+                        "render": function (data, type, row) {
+                            if (row.expected_date) {
+                                return row.expected_date
+                            } else {
+                                return 'Null'
+                            }
+                        },
+                    },
+                ],
+            });
+        })
+
+    </script>
+</body>
 
 </html>

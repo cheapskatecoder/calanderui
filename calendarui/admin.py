@@ -1,8 +1,6 @@
 from django.contrib import admin
-from .models import DqDatafile, DqFeed
+from .models import DqDatafile, DqFeedNew
 
 
 admin.site.register(DqDatafile)
-admin.site.register(DqFeed)
-
-
+admin.site.register(DqFeedNew)
