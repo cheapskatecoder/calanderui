@@ -1,0 +1,202 @@
+
+                            console.log(res)
+                            var events = [];
+                            res.map((value, index) => {
+                                if (value.cadence != null) {
+                                    $("#allDropdown").append(`<a id="file-${value.dq_datafile_id}" onclick="selectThis(this)" href="#about">${value.data_file_name}</a>`)
+                                }
+
+                                if (value.cadence == "WEEKLY") {
+                                    if (value.dqfeed__file_status == "RECEIVED") {
+                                        const data_file_name = value.data_file_name;
+                                        let repeatDay = dow_handler.hasOwnProperty(data_file_name) ? dow_handler[data_file_name] : undefined
+
+                                        events.push({
+                                            title: `${value.data_file_name}`,
+                                            start: '2020-04-13',
+                                            dow: [repeatDay, 1],
+                                            color: '#00ff00'
+                                        });
+                                    } else if (value.dqfeed__file_status == "DELAY") {
+                                        const data_file_name = value.data_file_name;
+                                        let repeatDay = dow_handler.hasOwnProperty(data_file_name) ? dow_handler[data_file_name] : undefined
+
+                                        events.push({
+                                            title: `${value.data_file_name}`,
+                                            start: '2020-04-13',
+                                            dow: [repeatDay, 1],
+                                            color: 'red'
+                                        });
+                                    } else if (value.dqfeed__file_status == "DELAYED") {
+                                        const data_file_name = value.data_file_name;
+                                        let repeatDay = dow_handler.hasOwnProperty(data_file_name) ? dow_handler[data_file_name] : undefined
+
+                                        events.push({
+                                            title: `${value.data_file_name}`,
+                                            start: '2020-04-13',
+                                            dow: [repeatDay, 1],
+                                            color: 'yellow'
+                                        });
+                                    } else if (value.dqfeed__file_status == "EXPECTED") {
+                                        const data_file_name = value.data_file_name;
+                                        let repeatDay = dow_handler.hasOwnProperty(data_file_name) ? dow_handler[data_file_name] : undefined
+
+                                        events.push({
+                                            title: `${value.data_file_name}`,
+                                            start: '2020-04-13',
+                                            dow: [repeatDay, 1],
+                                            color: 'grey'
+                                        });
+                                    } else {
+                                        const data_file_name = value.data_file_name;
+                                        let repeatDay = dow_handler.hasOwnProperty(data_file_name) ? dow_handler[data_file_name] : undefined
+
+                                        events.push({
+                                            title: `${value.data_file_name}`,
+                                            start: '2020-04-13',
+                                            dow: [repeatDay, 1],
+                                            color: '#e7e7e7'
+                                        });
+                                    }
+                                } else if (value.cadence == "MONTHLY") {
+
+                                    if (value.dqfeed__file_status == "RECEIVED") {
+                                        const data_file_name = value.data_file_name;
+                                        let repeatDay = dow_handler.hasOwnProperty(data_file_name) ? dow_handler[data_file_name] : undefined
+
+                                        events.push({
+                                            title: `${value.data_file_name}`,
+                                            start: lastFriday,
+                                            repeat: 1,
+                                            color: '#00ff00'
+                                        });
+                                    } else if (value.dqfeed__file_status == "DELAY") {
+                                        const data_file_name = value.data_file_name;
+                                        let repeatDay = dow_handler.hasOwnProperty(data_file_name) ? dow_handler[data_file_name] : undefined
+
+
+                                        events.push({
+                                            title: `${value.data_file_name}`,
+                                            start: lastFriday,
+                                            repeat: 1,
+                                            color: 'red'
+                                        });
+                                    } else if (value.dqfeed__file_status == "DELAYED") {
+                                        const data_file_name = value.data_file_name;
+                                        let repeatDay = dow_handler.hasOwnProperty(data_file_name) ? dow_handler[data_file_name] : undefined
+
+                                        events.push({
+                                            title: `${value.data_file_name}`,
+                                            start: lastFriday,
+                                            repeat: 1,
+                                            color: 'yellow'
+                                        });
+                                    } else if (value.dqfeed__file_status == "EXPECTED") {
+                                        const data_file_name = value.data_file_name;
+                                        let repeatDay = dow_handler.hasOwnProperty(data_file_name) ? dow_handler[data_file_name] : undefined
+
+                                        events.push({
+                                            title: `${value.data_file_name}`,
+                                            start: lastFriday,
+                                            repeat: 1,
+                                            color: 'grey'
+                                        });
+                                    } else {
+                                        const data_file_name = value.data_file_name;
+                                        let repeatDay = dow_handler.hasOwnProperty(data_file_name) ? dow_handler[data_file_name] : undefined
+
+                                        events.push({
+                                            title: `${value.data_file_name}`,
+                                            start: lastFriday,
+                                            repeat: 1,
+                                            color: '#ffccf9'
+                                        });
+                                    }
+                                } else if (value.cadence == "DAILY") {
+
+                                    if (value.dqfeed__file_status == "RECEIVED") {
+                                        const data_file_name = value.data_file_name;
+                                        let repeatDay = dow_handler.hasOwnProperty(data_file_name) ? dow_handler[data_file_name] : undefined
+
+                                        events.push({
+                                            title: `${value.data_file_name}`,
+                                            start: '2020-05-01',
+                                            dow: [repeatDay, 1, 2, 3, 4, 5],
+                                            color: '#00ff00'
+                                        });
+                                    } else if (value.dqfeed__file_status == "DELAY") {
+                                        const data_file_name = value.data_file_name;
+                                        let repeatDay = dow_handler.hasOwnProperty(data_file_name) ? dow_handler[data_file_name] : undefined
+
+                                        events.push({
+                                            title: `${value.data_file_name}`,
+                                            start: '2020-05-01',
+                                            dow: [repeatDay, 1, 2, 3, 4, 5],
+                                            color: 'red'
+                                        });
+                                    } else if (value.dqfeed__file_status == "DELAYED") {
+                                        const data_file_name = value.data_file_name;
+                                        let repeatDay = dow_handler.hasOwnProperty(data_file_name) ? dow_handler[data_file_name] : undefined
+
+                                        events.push({
+                                            title: `${value.data_file_name}`,
+                                            start: '2020-05-01',
+                                            dow: [repeatDay, 1, 2, 3, 4, 5],
+                                            color: 'yellow'
+                                        });
+                                    } else if (value.dqfeed__file_status == "EXPECTED") {
+                                        const data_file_name = value.data_file_name;
+                                        let repeatDay = dow_handler.hasOwnProperty(data_file_name) ? dow_handler[data_file_name] : undefined
+
+                                        events.push({
+                                            title: `${value.data_file_name}`,
+                                            start: '2020-05-01',
+                                            dow: [repeatDay, 1, 2, 3, 4, 5],
+                                            color: 'grey'
+                                        });
+                                    } else {
+                                        const data_file_name = value.data_file_name;
+                                        let repeatDay = dow_handler.hasOwnProperty(data_file_name) ? dow_handler[data_file_name] : undefined
+
+                                        events.push({
+                                            title: `${value.data_file_name}`,
+                                            start: '2020-05-01',
+                                            dow: [repeatDay, 1, 2, 3, 4, 5],
+                                            color: '#ffccf9'
+                                        });
+                                    }
+                                } else {
+
+                                    if (value.dqfeed__file_status == "RECEIVED") {
+                                        events.push({
+                                            title: `${value.data_file_name}`,
+                                            start: lastWednesday,
+                                            repeat: 1,
+                                            color: '#00ff00'
+                                        });
+                                    } else if (value.dqfeed__file_status == "DELAY") {
+                                        events.push({
+                                            title: `${value.data_file_name}`,
+                                            start: lastWednesday,
+                                            repeat: 1,
+                                            color: 'red'
+                                        });
+                                    } else if (value.dqfeed__file_status == "DELAYED") {
+                                        events.push({
+                                            title: `${value.data_file_name}`,
+                                            start: lastWednesday,
+                                            repeat: 1,
+                                            color: 'yellow'
+                                        });
+                                    } else if (value.dqfeed__file_status == "EXPECTED") {
+                                        events.push({
+                                            title: `${value.data_file_name}`,
+                                            start: lastWednesday,
+                                            repeat: 1,
+                                            color: 'grey'
+                                        });
+                                    }
+                                }
+                            })
+
+                            callback(events);

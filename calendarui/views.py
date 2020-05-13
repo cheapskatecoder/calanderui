@@ -27,6 +27,15 @@ class GetEvents(View):
         return JsonResponse(events, safe=False)
 
 
+class FilterEvents(View):
+    def get(self, request):
+        filename = request.GET.get('filename')
+        category = request.GET.get('category')
+        occurence = request.GET.get('occurence')
+        data = list(DqDatafile.objects.filter(cadence='WEEKLY').values())
+        return JsonResponse(data, safe=False)
+
+
 class TableView(View):
     template_name = 'calendarui/data-table.html'
 
