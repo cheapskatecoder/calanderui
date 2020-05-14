@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import Calendar, GetEvents, TableView, GetTableData, FilterEvents
+from .views import Calendar, GetEvents, TableView, GetTableData, FilterEvents, FilterDataTable
 
 
 urlpatterns = [
@@ -8,4 +8,5 @@ urlpatterns = [
     path('data-table', TableView.as_view()),
     path('get-table-data', GetTableData.as_view()),
     path('filter-events', FilterEvents.as_view()),
+    path('filter-data', FilterDataTable.as_view()),
 ]

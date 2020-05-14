@@ -2,7 +2,6 @@ from django.shortcuts import render
 from django.views import View
 from .models import DqDatafile, DqFeedNew
 from django.http import JsonResponse
-import datetime, calendar
 
 
 class Calendar(View):
@@ -134,5 +133,55 @@ class GetTableData(View):
             data = list(DqFeedNew.objects.values())
             return JsonResponse(data, safe=False)
         elif  filename == 'None' and  occurence == 'None' and category == 'None':
+            data = list(DqFeedNew.objects.values())
+            return JsonResponse(data, safe=False)
+
+
+class FilterDataTable(View):
+
+    def get(self, request):
+        filetype = request.GET.get('file-type')
+        rec_date = request.GET.get('rec_date')
+        category = request.GET.get('category')
+
+        if filetype != 'undefined' and rec_date != 'undefined' and category != 'undefined':
+            data = list(DqFeedNew.objects.filter(dq_datafile__data_file_type=filetype, received_date=rec_date,
+                                                 category=category).values())
+            return JsonResponse(data, safe=False)
+
+        elif filetype != 'undefined' and  rec_date == 'undefined' and  category != 'undefined':
+            data = list(DqFeedNew.objects.filter(dq_datafile__data_file_type=filetype, category=category).values())
+            return JsonResponse(data, safe=False)
+        elif filetype != 'undefined' and  rec_date != 'undefined' and category == 'undefined':
+            data = list(DqFeedNew.objects.filter(dq_datafile__data_file_type=filetype, received_date=rec_date).values())
+            return JsonResponse(data, safe=False)
+        elif filetype != 'undefined' and  rec_date == 'undefined' and  category == 'undefined':
+            data = list(DqFeedNew.objects.filter(dq_datafile__data_file_type=filetype).values())
+            return JsonResponse(data, safe=False)
+
+        elif filetype == 'undefined' and  rec_date != 'undefined' and category != 'undefined':
+            data = list(DqFeedNew.objects.filter(received_date=rec_date, category=category).values())
+            return JsonResponse(data, safe=False)
+        elif  filetype != 'undefined' and  rec_date != 'undefined' and category == 'undefined':
+            data = list(DqFeedNew.objects.filter(received_date=rec_date, dq_datafile__data_file_type=filetype).values())
+            return JsonResponse(data, safe=False)
+        elif filetype == 'undefined' and  rec_date != 'undefined' and category == 'undefined':
+            data = list(DqFeedNew.objects.filter(received_date=rec_date).values())
+            return JsonResponse(data, safe=False)
+
+        elif  filetype != 'undefined' and  rec_date == 'undefined' and category != 'undefined':
+            data = list(DqFeedNew.objects.filter(dq_datafile__data_file_type=filetype, category=category).values())
+            return JsonResponse(data, safe=False)
+        elif filetype == 'undefined' and  rec_date != 'undefined' and category != 'undefined':
+            data = list(DqFeedNew.objects.filter(received_date=filetype, category=category).values())
+            return JsonResponse(data, safe=False)
+        elif filetype == 'undefined' and  rec_date == 'undefined' and category != 'undefined':
+            data = list(DqFeedNew.objects.filter(category=category).values())
+            return JsonResponse(data, safe=False)
+
+        elif filetype == 'undefined' and  rec_date == 'undefined' and category == 'undefined':
+            data = list(DqFeedNew.objects.values())
+            return JsonResponse(data, safe=False)
+        elif  filetype == 'None' and  rec_date == 'None' and category == 'None':
             data = list(DqFeedNew.objects.values())
             return JsonResponse(data, safe=False)

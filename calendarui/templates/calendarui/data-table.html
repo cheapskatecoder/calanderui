@@ -11,6 +11,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/1.0.0/css/dataTables.responsive.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.1/css/jquery.dataTables.css">
+
     <!-- JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -164,8 +167,7 @@
     <div class="container-fluid">
 
         <div class="row">
-
-            <div id="buttons-container" class="container form-container" style="margin-left: 14px;">
+            <div id="buttons-container" class="container form-container">
                 <div class="dropdown">
                     <input onclick="myFunction1()" id="rec-date" placeholder="Recieved Date"
                         class="form-control w-100 fc-month-button fc-button fc-state-default border-style" />
@@ -177,30 +179,6 @@
                         <a href="#" onclick="selectThis(this)">{{ received }}</a>
                         {% endfor %}
                     </div>
-
-
-{#                <div class="dropdown all" hidden="hidden">#}
-{#             <div id="buttons-container" class="container form-container" style="margin-left: 14px;">#}
-{#                <div class="dropdown">#}
-{#                    <input onclick="myFunction1()" id="selectFile" placeholder="Received via"#}
-{#                        class="form-control w-100 fc-month-button fc-button fc-state-default border-style" />#}
-{#                </div>#}
-{#                    <div id="allDropdown" class="dropdown-content" style="z-index: 20;">#}
-{#                        <input class="myInput" type="text" placeholder="Search.." id="myInput1"#}
-{#                            onkeyup="filterFunction1()">#}
-{#                        {% for row in rows %}#}
-{#                        <a href="#" onclick="selectThis(this)">{{ row.feed_received_via }}</a>#}
-{#                        {% endfor %}#}
-{#                    </div>#}
-
-{#                </div>#}
-
-{#                <div class="dropdown data">#}
-{##}
-{#                    <button onclick="myFunction2()" class="fc-month-button fc-button fc-state-default border-style"#}
-{#                        id="filetype">#}
-{#                        File Type#}
-{#                    </button>#}
                 <div class="dropdown data">
                     <div class="dropdown">
                     <input onclick="myFunction2()" id="filetype" placeholder="file Type"
@@ -245,11 +223,12 @@
                 </div>
 
             </div>
+
             <!--</form>-->          <!--</form>-->
             <br>
             <br>
             <br>
-            <div class="col-12">
+            <div class="col-12 container">
                 <table id="table-data" class="table table-bordered" style="width:100%"></table>
             </div>
         </div>
@@ -262,19 +241,42 @@
             $('#filetype').val(null).trigger("change");
             $('#category').val(null).trigger("change");
             table.columns().search("").draw();
+
+            $.ajax({
+                url: 'get-table-data',
+                type: 'get',
+                data: { 'file-name': 'undefined', 'category': 'undefined', 'occurence': 'undefined' },
+                success: (e) => {
+                    console.log(e)
+                    $("#table-data").dataTable().fnClearTable();
+                    for (let data of e){
+                        $("#table-data").DataTable().row.add(data);
+                    }
+                    $("#table-data").DataTable().draw();
+                }
+            })
         }
 
         const submitFilter = () => {
             var table = $("#table-data").DataTable();
-            let filetype = localStorage.getItem('filetype');
+            let fileType = localStorage.getItem('filetype');
             let category = localStorage.getItem('category');
             let rec_date = localStorage.getItem('rec-date');
 
-            console.log('localstorage items', {'filetype': filetype, 'category': category, 'rec_date': rec_date});
+            let params = `filter-data?file-type=${fileType ? fileType : 'undefined'}&category=${category ? category : 'undefined'}&rec_date=${rec_date ? rec_date : 'undefined'}`
 
-            table.columns(4).search(category).draw();
-            table.columns(1).search(filetype).draw();
-            table.columns(3).search(rec_date).draw();
+            $.ajax({
+                url: params,
+                type: 'get',
+                success: (e) => {
+                    console.log(e)
+                    $("#table-data").dataTable().fnClearTable();
+                    for (let data of e){
+                        $("#table-data").DataTable().row.add(data);
+                    }
+                    $("#table-data").DataTable().draw();
+                }
+            })
         }
 
         function changeCategory(obj) {
@@ -423,7 +425,6 @@
                                 const monthNames = ["January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December"
                                 ];
-                                console.log(monthNames)
                                 let a = new Date(row.received_date);
                                 let formatted_date = monthNames[a.getMonth()]+' '+a.getDate()+', '+a.getFullYear()+', '+a.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
                                 return formatted_date;
