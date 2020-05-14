@@ -272,9 +272,9 @@
 
             console.log('localstorage items', {'filetype': filetype, 'category': category, 'rec_date': rec_date});
 
-            table.columns(4).search(category, false, false, true).draw();
-            table.columns(1).search(filetype, false, false, true).draw();
-            table.columns(3).search(rec_date, false, false, true).draw();
+            table.columns(4).search(category).draw();
+            table.columns(1).search(filetype).draw();
+            table.columns(3).search(rec_date).draw();
         }
 
         function changeCategory(obj) {
@@ -420,7 +420,13 @@
                         "title": "Recieved Date",
                         "render": function (data, type, row) {
                             if (row.received_date) {
-                                return row.received_date
+                                const monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+                                ];
+                                console.log(monthNames)
+                                let a = new Date(row.received_date);
+                                let formatted_date = monthNames[a.getMonth()]+' '+a.getDate()+', '+a.getFullYear()+', '+a.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
+                                return formatted_date;
                             } else {
                                 return 'Null'
                             }
