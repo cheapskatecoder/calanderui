@@ -104,7 +104,8 @@
             position: absolute;
             background-color: white;
             min-width: 230px;
-            overflow: auto;
+            overflow-y:scroll;
+            height: 400px;
             border: 1px solid #ddd;
             z-index: 1;
             opacity: 10;
@@ -138,20 +139,24 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-inverse">
+    <nav class="navbar navbar">
         <div class="container-fluid">
             <div class="navbar-header">
                 <!--<a class="navbar-brand" href="#">WebSiteName</a>-->
             </div>
+            <button>
             <ul class="nav navbar-nav">
                 <li class="active"><a href="calendarUi">Calendar</a></li>
                 </li>
             </ul>
+            </button>
+            <button>
             <ul class="nav navbar-nav navbar-left">
                 <!--<li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>-->
                 <li><a href="/calendarui/data-table"><span class="glyphicon glyphicon-th-list"></span> Data Table</a>
                 </li>
             </ul>
+            </button>
         </div>
     </nav>
     <br>
@@ -162,56 +167,71 @@
 
             <div id="buttons-container" class="container form-container" style="margin-left: 14px;">
                 <div class="dropdown">
-                    <input type="text" id="rec-date" placeholder="Recieved Date"
+                    <input onclick="myFunction1()" id="rec-date" placeholder="Recieved Date"
                         class="form-control w-100 fc-month-button fc-button fc-state-default border-style" />
                 </div>
-
-                <div class="dropdown all" hidden="hidden">
-
-                    <button onclick="myFunction1()" id="selectFile"
-                        class="fc-month-button fc-button fc-state-default border-style">
-                        Recieved Via
-                    </button>
-
                     <div id="allDropdown" class="dropdown-content" style="z-index: 20;">
                         <input class="myInput" type="text" placeholder="Search.." id="myInput1"
                             onkeyup="filterFunction1()">
-                        {% for row in rows %}
-                        <a href="#" onclick="selectThis(this)">{{ row.feed_received_via }}</a>
+                        {% for received in receivedDate %}
+                        <a href="#" onclick="selectThis(this)">{{ received }}</a>
                         {% endfor %}
                     </div>
 
-                </div>
 
+{#                <div class="dropdown all" hidden="hidden">#}
+{#             <div id="buttons-container" class="container form-container" style="margin-left: 14px;">#}
+{#                <div class="dropdown">#}
+{#                    <input onclick="myFunction1()" id="selectFile" placeholder="Received via"#}
+{#                        class="form-control w-100 fc-month-button fc-button fc-state-default border-style" />#}
+{#                </div>#}
+{#                    <div id="allDropdown" class="dropdown-content" style="z-index: 20;">#}
+{#                        <input class="myInput" type="text" placeholder="Search.." id="myInput1"#}
+{#                            onkeyup="filterFunction1()">#}
+{#                        {% for row in rows %}#}
+{#                        <a href="#" onclick="selectThis(this)">{{ row.feed_received_via }}</a>#}
+{#                        {% endfor %}#}
+{#                    </div>#}
+
+{#                </div>#}
+
+{#                <div class="dropdown data">#}
+{##}
+{#                    <button onclick="myFunction2()" class="fc-month-button fc-button fc-state-default border-style"#}
+{#                        id="filetype">#}
+{#                        File Type#}
+{#                    </button>#}
                 <div class="dropdown data">
-
-                    <button onclick="myFunction2()" class="fc-month-button fc-button fc-state-default border-style"
-                        id="filetype">
-                        File Type
-                    </button>
+                    <div class="dropdown">
+                    <input onclick="myFunction2()" id="filetype" placeholder="file Type"
+                        class="form-control w-100 fc-month-button fc-button fc-state-default border-style" />
+                    </div>
 
                     <div id="dataDropdown" class="dropdown-content" style="z-index: 20;">
                         <input class="myInput" type="text" placeholder="Search.." id="myInput2"
                             onkeyup="filterFunction2()">
-                        {% for row in rows %}
-                        <a href="#" onclick="changeWeekly(this)">{{ row.source_datafile_type }}</a>
+                        {% for file in fileType %}
+                        <a href="#" onclick="changeWeekly(this)">{{ file }}</a>
                         {% endfor %}
                     </div>
-
                 </div>
 
                 <div class="dropdown yearly">
 
-                    <button onclick="myFunction3(this)" class="fc-month-button fc-button fc-state-default border-style"
-                        id="category">
-                        Category
-                    </button>
+{#                    <button onclick="myFunction3(this)" class="fc-month-button fc-button fc-state-default border-style"#}
+{#                        id="category">#}
+{#                        Category#}
+{#                    </button>#}
+                <div class="dropdown">
+                    <input onclick="myFunction3()" id="category" placeholder="Category"
+                        class="form-control w-100 fc-month-button fc-button fc-state-default border-style" />
+                </div>
 
                     <div id="yearlyDropdown" class="dropdown-content" style="z-index: 20;">
                         <input class="myInput" type="text" placeholder="Search.." id="myInput3"
                             onkeyup="filterFunction3()">
-                        {% for row in rows %}
-                        <a href="#" onclick="changeCategory(this)">{{row.category}}</a>
+                        {% for category in categories %}
+                        <a href="#" onclick="changeCategory(this)">{{category}}</a>
                         {% endfor %}
                     </div>
 
@@ -225,7 +245,7 @@
                 </div>
 
             </div>
-            <!--</form>-->
+            <!--</form>-->          <!--</form>-->
             <br>
             <br>
             <br>
@@ -238,44 +258,45 @@
     <script>
         const resetFilter = () => {
             let table = $("#table-data").DataTable();
-            $("#filetype").html('File Type')
-            $("#category").html('Category')
+            $('#rec-date').val(null).trigger("change");
+            $('#filetype').val(null).trigger("change");
+            $('#category').val(null).trigger("change");
             table.columns().search("").draw();
         }
 
         const submitFilter = () => {
             var table = $("#table-data").DataTable();
-            let filetype = localStorage.getItem('fileType');
+            let filetype = localStorage.getItem('filetype');
             let category = localStorage.getItem('category');
-            let recvia = localStorage.getItem('receivedVia');
-            table.columns(4).search(category, true, false, true).draw();
+            let rec_date = localStorage.getItem('rec-date');
+
+            console.log('localstorage items', {'filetype': filetype, 'category': category, 'rec_date': rec_date});
+
+            table.columns(4).search(category, false, false, true).draw();
+            table.columns(1).search(filetype, false, false, true).draw();
+            table.columns(3).search(rec_date, false, false, true).draw();
         }
 
         function changeCategory(obj) {
-            let data = $(obj).html()
-            $("#category").html(data);
-            document.getElementById("yearlyDropdown").classList.remove("show");
+            let data = $(obj).html();
             localStorage.setItem('category', data);
-            //localStorage.removeItem("fileType");
-            //localStorage.removeItem("receivedVia");
+            var table = $("#table-data").DataTable();
+            $("#category").val(data);
+            document.getElementById("yearlyDropdown").classList.remove("show");
         }
 
         function changeWeekly(obj) {
             let data = $(obj).html()
-            $("#filetype").html(data);
+            localStorage.setItem('filetype', data);
+            $("#filetype").val(data);
             document.getElementById("dataDropdown").classList.remove("show");
-            localStorage.setItem('fileType', data);
-            //localStorage.removeItem("receivedVia");
-            //localStorage.removeItem("category");
         }
 
         function selectThis(obj) {
             let data = $(obj).html()
-            $("#selectFile").html(data);
+            localStorage.setItem('rec-date', data);
+            $("#rec-date").val(data);
             document.getElementById("allDropdown").classList.remove("show");
-            localStorage.setItem('receivedVia', data);
-            //localStorage.removeItem("category");
-            //localStorage.removeItem("fileType");
         }
 
         function myFunction1() {
@@ -346,6 +367,7 @@
 
 
         $(document).ready(() => {
+            localStorage.clear();
             let formData = new FormData();
 
             let filename = "{{filename}}";
